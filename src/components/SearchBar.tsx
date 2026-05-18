@@ -18,10 +18,7 @@ export default function SearchBar({ onSearch, placeholder = 'Buscar productos...
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setQuery(val);
-    // Debounced search on type
-    if (val === '') {
-      onSearch('');
-    }
+    onSearch(val);
   };
 
   return (

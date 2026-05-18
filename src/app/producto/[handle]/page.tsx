@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { getProductByHandle, formatPrice } from '@/lib/shopify';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/types/shopify';
+import CountdownTimer from '@/components/CountdownTimer';
 
 export default function ProductoPage() {
   const params = useParams();
@@ -82,6 +83,13 @@ export default function ProductoPage() {
                 OFERTA
               </div>
             )}
+            {/* Free shipping badge */}
+            <div className="absolute top-4 right-4 z-10 bg-red-600 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+              </svg>
+              GRATIS
+            </div>
             {isDemo ? (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
                 <span className="text-8xl">{product.productType === 'Gatos' ? '🐱' : '🐕'}</span>
@@ -109,13 +117,23 @@ export default function ProductoPage() {
             <h1 className="text-2xl md:text-3xl font-black text-gray-900">{product.title}</h1>
           </div>
 
-          <div className="flex items-center gap-3">
-            {hasDiscount && (
-              <span className="text-xl text-gray-400 line-through">{formatPrice(compareAt.amount, compareAt.currencyCode)}</span>
-            )}
-            <span className={`text-3xl font-black ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
-              {formatPrice(price.amount, price.currencyCode)}
-            </span>
+          <div>
+            <div className="flex items-center gap-3 flex-wrap">
+              {hasDiscount && (
+                <span className="text-xl text-gray-400 line-through">{formatPrice(compareAt.amount, compareAt.currencyCode)}</span>
+              )}
+              <span className={`text-3xl font-black ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
+                {formatPrice(price.amount, price.currencyCode)}
+              </span>
+              {hasDiscount && (
+                <span className="bg-red-600 text-white text-sm font-black px-3 py-1 rounded-full">
+                  -{Math.round((1 - parseFloat(price.amount) / parseFloat(compareAt.amount)) * 100)}% OFF
+                </span>
+              )}
+            </div>
+            <p className="text-sm text-green-600 font-medium mt-1">
+              3 cuotas sin interés x {formatPrice((parseFloat(price.amount) / 3).toFixed(2), price.currencyCode)}
+            </p>
           </div>
 
           <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: product.descriptionHtml || `<p>${product.description}</p>` }} />
@@ -149,8 +167,68 @@ export default function ProductoPage() {
             </svg>
             Consultar por WhatsApp
           </a>
+
+          <CountdownTimer />
         </div>
       </div>
+
+      {/* ── Qué contiene el kit ── solo para el kit de paseo */}
+      {handle === 'kit-premium-de-paseo-para-perros' && (
+      <div className="mt-12 md:mt-16">
+        {/* Header */}
+        <div className="bg-red-600 rounded-2xl px-6 py-4 flex items-center justify-center gap-3 mb-8">
+          <span className="text-xl">📦</span>
+          <h2 className="text-white font-black text-lg md:text-xl uppercase tracking-wide">
+            ¿Qué contiene nuestro Kit de Paseo?
+          </h2>
+        </div>
+
+        {/* Items grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {/* Item 1 */}
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
+            <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl">💧</span>
+            </div>
+            <h3 className="font-black text-gray-900 text-base mb-2">Botella Portátil</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Dispensador de agua antigoteo con capacidad ideal para paseos largos. Liviana y fácil de usar con una sola mano.
+            </p>
+            <div className="mt-3 inline-flex items-center gap-1 bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
+              ✓ Incluido en el kit
+            </div>
+          </div>
+
+          {/* Item 2 */}
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
+            <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl">🧹</span>
+            </div>
+            <h3 className="font-black text-gray-900 text-base mb-2">Juntador de Excrementos</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Práctico y discreto. Olvidate de los paseos incómodos, lleva las bolsas siempre a mano sin ocupar espacio.
+            </p>
+            <div className="mt-3 inline-flex items-center gap-1 bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
+              ✓ Incluido en el kit
+            </div>
+          </div>
+
+          {/* Item 3 */}
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
+            <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl">🎁</span>
+            </div>
+            <h3 className="font-black text-gray-900 text-base mb-2">Chaleco de Regalo</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Chaleco para el frío incluido sin costo adicional. El regalo perfecto para que tu mascota esté cómoda en cada salida.
+            </p>
+            <div className="mt-3 inline-flex items-center gap-1 bg-red-50 text-red-600 text-xs font-bold px-3 py-1 rounded-full">
+              🎁 ¡De regalo!
+            </div>
+          </div>
+        </div>
+      </div>
+      )}
     </div>
   );
 }
