@@ -324,55 +324,13 @@ export default function ProductoPage() {
                   </div>
 
                   {/* Countdown Timer Argentina Style */}
-                  <div className="argentina-countdown-timer rounded-2xl px-6 py-5 mt-2" id="countdown-timer">
-                    <p className="text-white text-xs font-bold text-center uppercase tracking-widest mb-4 flex items-center justify-center gap-2 drop-shadow-lg">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 animate-bounce">
-                        <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clipRule="evenodd" />
-                      </svg>
-                      ¡Esta oferta vence en!
-                    </p>
-
-                    <div className="flex items-center justify-center gap-3">
-                      {/* Hours */}
-                      <div className="flex flex-col items-center">
-                        <div className="bg-white/30 backdrop-blur rounded-xl px-4 py-3 min-w-[64px] text-center drop-shadow-md">
-                          <span className="text-white text-3xl font-black tabular-nums drop-shadow-md">01</span>
-                        </div>
-                        <span className="text-white font-bold text-[10px] uppercase tracking-widest mt-1.5 drop-shadow-md">Horas</span>
-                      </div>
-
-                      <span className="text-white text-3xl font-black mb-4 drop-shadow-md">:</span>
-
-                      {/* Minutes */}
-                      <div className="flex flex-col items-center">
-                        <div className="bg-white/30 backdrop-blur rounded-xl px-4 py-3 min-w-[64px] text-center drop-shadow-md">
-                          <span className="text-white text-3xl font-black tabular-nums drop-shadow-md">07</span>
-                        </div>
-                        <span className="text-white font-bold text-[10px] uppercase tracking-widest mt-1.5 drop-shadow-md">Minutos</span>
-                      </div>
-
-                      <span className="text-white text-3xl font-black mb-4 drop-shadow-md">:</span>
-
-                      {/* Seconds */}
-                      <div className="flex flex-col items-center">
-                        <div className="bg-white/30 backdrop-blur rounded-xl px-4 py-3 min-w-[64px] text-center drop-shadow-md">
-                          <span className="text-white text-3xl font-black tabular-nums drop-shadow-md">18</span>
-                        </div>
-                        <span className="text-white font-bold text-[10px] uppercase tracking-widest mt-1.5 drop-shadow-md">Segundos</span>
-                      </div>
-                    </div>
-
-                    <p className="text-white text-xs text-center mt-4 font-semibold drop-shadow-md">
-                      🇦🇷 El precio vuelve a su valor original cuando termine el contador
-                    </p>
-                  </div>
-
-                  {/* Stock Alert Argentina Style */}
-                  <div className="mt-6 space-y-3">
-                    <div className="text-center flex items-center justify-center gap-2">
-                      <span className="text-blue-600 text-lg font-black animate-blink-pulse">●</span>
-                      <span className="text-gray-900 text-sm font-bold">Quedan pocas unidades - Pedi <span className="text-blue-600">Ahora</span></span>
-                    </div>
+                  <style>{`
+                    .argentina-countdown #countdown-timer {
+                      background: linear-gradient(90deg, #60A5FA 0%, #FBBF24 50%, #60A5FA 100%) !important;
+                    }
+                  `}</style>
+                  <div className="argentina-countdown">
+                    <CountdownTimer />
                   </div>
                 </>
               )}

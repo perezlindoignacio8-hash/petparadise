@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface HeroBannerProps {
   onSlideChange?: (index: number) => void;
@@ -11,30 +11,25 @@ interface HeroBannerProps {
 export default function HeroBanner({ onSlideChange }: HeroBannerProps = {}) {
   const [current, setCurrent] = useState(0);
   const touchStartX = useRef<number | null>(null);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const total = 2;
+
+  useEffect(() => {
+    // Resetear al slide 0 cuando el componente se monta
+    setCurrent(0);
+  }, []);
 
   useEffect(() => {
     onSlideChange?.(current);
   }, [current, onSlideChange]);
 
-  const next = useCallback(() => {
+  const next = () => {
     setCurrent((prev) => (prev + 1) % total);
-  }, []);
+  };
 
-  const prev = useCallback(() => {
+  const prev = () => {
     setCurrent((prev) => (prev - 1 + total) % total);
-  }, []);
+  };
 
-  const resetInterval = useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(next, 8000);
-  }, [next]);
-
-  useEffect(() => {
-    resetInterval();
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
-  }, [resetInterval]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -45,14 +40,8 @@ export default function HeroBanner({ onSlideChange }: HeroBannerProps = {}) {
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) {
       if (diff > 0) next(); else prev();
-      resetInterval();
     }
     touchStartX.current = null;
-  };
-
-  const goTo = (index: number) => {
-    setCurrent(index);
-    resetInterval();
   };
 
   return (
@@ -166,16 +155,40 @@ export default function HeroBanner({ onSlideChange }: HeroBannerProps = {}) {
         </div>
       </div>
 
+      {/* Arrow Controls */}
+      <button
+        onClick={prev}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-gray-900 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110"
+        aria-label="Slide anterior"
+        type="button"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+
+      <button
+        onClick={next}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-gray-900 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110"
+        aria-label="Siguiente slide"
+        type="button"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5L15.75 12l-7.5 7.5" />
+        </svg>
+      </button>
+
       {/* Dots navigation */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {Array.from({ length: total }).map((_, i) => (
           <button
             key={i}
-            onClick={() => goTo(i)}
+            onClick={() => setCurrent(i)}
             className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               i === current ? 'bg-white scale-125 shadow-md' : 'bg-white/50 hover:bg-white/80'
             }`}
             aria-label={`Ir al slide ${i + 1}`}
+            type="button"
           />
         ))}
       </div>
