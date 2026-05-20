@@ -116,8 +116,8 @@ export default function VideoReviews({ videos }: VideoReviewsProps) {
                 autoPlay
                 controls
                 muted
-                volume={0}
-                controlsList="nofullscreen"
+                controlsList="nofullscreen novolume"
+                ref={(el) => { if (el) el.volume = 0; }}
                 style={{
                   position: 'absolute',
                   top: 0,
