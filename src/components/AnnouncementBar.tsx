@@ -15,11 +15,11 @@ export default function AnnouncementBar() {
 
   return (
     <div className="announcement-bar bg-slate-800 text-white overflow-hidden whitespace-nowrap">
-      <div className="announcement-bar__track flex animate-marquee">
+      <div className="announcement-bar__track flex animate-marquee w-max">
         {messages.map((msg, i) => (
           <span
             key={i}
-            className="inline-block px-4 sm:px-8 py-2 text-xs font-bold tracking-widest uppercase"
+            className="shrink-0 px-4 sm:px-8 py-2 text-xs font-bold tracking-widest uppercase"
           >
             {msg}
           </span>
@@ -28,7 +28,7 @@ export default function AnnouncementBar() {
         {messages.map((msg, i) => (
           <span
             key={`dup-${i}`}
-            className="inline-block px-4 sm:px-8 py-2 text-xs font-bold tracking-widest uppercase"
+            className="shrink-0 px-4 sm:px-8 py-2 text-xs font-bold tracking-widest uppercase"
           >
             {msg}
           </span>
