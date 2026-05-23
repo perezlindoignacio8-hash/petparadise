@@ -79,6 +79,41 @@ const PRODUCT_CONFIGS: Record<string, any> = {
       { icon: '🛡️', label: 'Resistente', text: 'Material premium' },
     ],
   },
+  'kit-higiene-para-tu-mascota': {
+    descriptionItems: [
+      {
+        icon: '🧤',
+        title: 'Guante de Aseo',
+        description: 'Guante con masaje relajante para cepillar y mimar a tu mascota al mismo tiempo.',
+        bgColor: 'bg-blue-100',
+      },
+      {
+        icon: '🪮',
+        title: 'Deslanador',
+        description: 'Remueve el pelo muerto fácilmente y mantiene el pelaje suave y brillante.',
+        bgColor: 'bg-purple-100',
+      },
+      {
+        icon: '✂️',
+        title: 'Cortauñas',
+        description: 'Cortauñas seguro y preciso, ideal para mantener las uñas en su largo justo.',
+        bgColor: 'bg-pink-100',
+      },
+      {
+        icon: '🪥',
+        title: 'Cepillo Dental',
+        description: 'Cepillo para una limpieza dental rápida y efectiva, cuidando la salud bucal.',
+        bgColor: 'bg-green-100',
+      },
+    ],
+    features: [
+      { icon: '🛁', label: 'Higiene', text: 'Cuidado integral' },
+      { icon: '✨', label: 'Suave', text: 'Sin lastimar' },
+      { icon: '💪', label: 'Resistente', text: 'Material premium' },
+      { icon: '🐾', label: 'Práctico', text: 'Fácil de usar' },
+      { icon: '🏠', label: 'En casa', text: 'Sin ir al groomer' },
+    ],
+  },
   'kit-argentina-mundial-2026': {
     descriptionItems: [
       {
