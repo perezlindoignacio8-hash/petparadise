@@ -23,6 +23,7 @@ interface LocalCartItem {
   image: string;
   handle: string;
   currencyCode: string;
+  selectedSize?: number;
 }
 
 interface CartContextType {
@@ -34,7 +35,7 @@ interface CartContextType {
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addItem: (product: Product, quantity?: number) => Promise<void>;
+  addItem: (product: Product, quantity?: number, selectedSize?: number) => Promise<void>;
   updateQuantity: (itemId: string, quantity: number) => Promise<void>;
   removeItem: (itemId: string) => Promise<void>;
   checkout: () => void;
@@ -48,6 +49,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [sizeMap, setSizeMap] = useState<Record<string, number>>({});
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -58,6 +60,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setItems(parsed.items || []);
         setCartId(parsed.cartId || null);
         setCheckoutUrl(parsed.checkoutUrl || null);
+        setSizeMap(parsed.sizeMap || {});
       } catch {
         // Invalid cart data, reset
       }
@@ -68,9 +71,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem(
       'pet-paradise-cart',
-      JSON.stringify({ items, cartId, checkoutUrl })
+      JSON.stringify({ items, cartId, checkoutUrl, sizeMap })
     );
-  }, [items, cartId, checkoutUrl]);
+  }, [items, cartId, checkoutUrl, sizeMap]);
 
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -83,7 +86,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const toggleCart = useCallback(() => setIsOpen((prev) => !prev), []);
 
   const addItem = useCallback(
-    async (product: Product, quantity = 1) => {
+    async (product: Product, quantity = 1, selectedSize?: number) => {
       setIsLoading(true);
       const variant = product.variants.edges[0]?.node;
       if (!variant) {
@@ -103,15 +106,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         });
       }
 
+      // Build cart line attributes for Shopify (so each size is a separate line)
+      const attributes = selectedSize
+        ? [{ key: 'Talle', value: String(selectedSize) }]
+        : undefined;
+
+      // Helper to extract size from Shopify line attributes
+      const getSizeFromAttributes = (attrs?: { key: string; value: string }[] | null): number | undefined => {
+        if (!attrs) return undefined;
+        const sizeAttr = attrs.find((a) => a.key === 'Talle');
+        return sizeAttr ? parseInt(sizeAttr.value, 10) : undefined;
+      };
+
       if (isShopifyConfigured()) {
         try {
           if (!cartId) {
-            const cart = await createCart(variant.id, quantity);
+            const cart = await createCart(variant.id, quantity, attributes);
             if (cart) {
               setCartId(cart.id);
               setCheckoutUrl(cart.checkoutUrl);
               setItems(
-                cart.lines.edges.map((edge) => ({
+                cart.lines.edges.map((edge: any) => ({
                   id: edge.node.id,
                   variantId: edge.node.merchandise.id,
                   title: edge.node.merchandise.product.title,
@@ -121,15 +136,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                   image: edge.node.merchandise.product.featuredImage?.url || '',
                   handle: edge.node.merchandise.product.handle,
                   currencyCode: edge.node.merchandise.price.currencyCode,
+                  selectedSize: getSizeFromAttributes(edge.node.attributes),
                 }))
               );
             }
           } else {
-            const cart = await addToCartAPI(cartId, variant.id, quantity);
+            const cart = await addToCartAPI(cartId, variant.id, quantity, attributes);
             if (cart) {
               setCheckoutUrl(cart.checkoutUrl);
               setItems(
-                cart.lines.edges.map((edge) => ({
+                cart.lines.edges.map((edge: any) => ({
                   id: edge.node.id,
                   variantId: edge.node.merchandise.id,
                   title: edge.node.merchandise.product.title,
@@ -139,6 +155,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                   image: edge.node.merchandise.product.featuredImage?.url || '',
                   handle: edge.node.merchandise.product.handle,
                   currencyCode: edge.node.merchandise.price.currencyCode,
+                  selectedSize: getSizeFromAttributes(edge.node.attributes),
                 }))
               );
             }
@@ -149,10 +166,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } else {
         // Demo mode: local cart
         setItems((prev) => {
-          const existing = prev.find((item) => item.variantId === variant.id);
+          const existing = prev.find((item) => item.variantId === variant.id && item.selectedSize === selectedSize);
           if (existing) {
             return prev.map((item) =>
-              item.variantId === variant.id
+              item.variantId === variant.id && item.selectedSize === selectedSize
                 ? { ...item, quantity: item.quantity + quantity }
                 : item
             );
@@ -169,6 +186,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
               image: product.featuredImage?.url || '',
               handle: product.handle,
               currencyCode: variant.price.currencyCode,
+              selectedSize: selectedSize,
             },
           ];
         });
@@ -189,12 +207,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       setIsLoading(true);
 
+      const getSizeFromAttrs = (attrs?: { key: string; value: string }[] | null): number | undefined => {
+        if (!attrs) return undefined;
+        const sizeAttr = attrs.find((a) => a.key === 'Talle');
+        return sizeAttr ? parseInt(sizeAttr.value, 10) : undefined;
+      };
+
       if (isShopifyConfigured() && cartId) {
         try {
           const cart = await updateCartLine(cartId, itemId, quantity);
           if (cart) {
             setItems(
-              cart.lines.edges.map((edge) => ({
+              cart.lines.edges.map((edge: any) => ({
                 id: edge.node.id,
                 variantId: edge.node.merchandise.id,
                 title: edge.node.merchandise.product.title,
@@ -204,6 +228,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 image: edge.node.merchandise.product.featuredImage?.url || '',
                 handle: edge.node.merchandise.product.handle,
                 currencyCode: edge.node.merchandise.price.currencyCode,
+                selectedSize: getSizeFromAttrs(edge.node.attributes),
               }))
             );
           }
@@ -213,7 +238,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } else {
         setItems((prev) =>
           prev.map((item) =>
-            item.id === itemId ? { ...item, quantity } : item
+            item.id === itemId ? { ...item, quantity, selectedSize: item.selectedSize } : item
           )
         );
       }
@@ -227,12 +252,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     async (itemId: string) => {
       setIsLoading(true);
 
+      const getSizeFromAttrs = (attrs?: { key: string; value: string }[] | null): number | undefined => {
+        if (!attrs) return undefined;
+        const sizeAttr = attrs.find((a) => a.key === 'Talle');
+        return sizeAttr ? parseInt(sizeAttr.value, 10) : undefined;
+      };
+
       if (isShopifyConfigured() && cartId) {
         try {
           const cart = await removeFromCartAPI(cartId, [itemId]);
           if (cart) {
             setItems(
-              cart.lines.edges.map((edge) => ({
+              cart.lines.edges.map((edge: any) => ({
                 id: edge.node.id,
                 variantId: edge.node.merchandise.id,
                 title: edge.node.merchandise.product.title,
@@ -242,6 +273,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 image: edge.node.merchandise.product.featuredImage?.url || '',
                 handle: edge.node.merchandise.product.handle,
                 currencyCode: edge.node.merchandise.price.currencyCode,
+                selectedSize: getSizeFromAttrs(edge.node.attributes),
               }))
             );
           }
@@ -284,17 +316,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (cart) {
           setCheckoutUrl(cart.checkoutUrl);
           setItems(
-            cart.lines.edges.map((edge) => ({
-              id: edge.node.id,
-              variantId: edge.node.merchandise.id,
-              title: edge.node.merchandise.product.title,
-              price: edge.node.merchandise.price.amount,
-              compareAtPrice: edge.node.merchandise.compareAtPrice?.amount,
-              quantity: edge.node.quantity,
-              image: edge.node.merchandise.product.featuredImage?.url || '',
-              handle: edge.node.merchandise.product.handle,
-              currencyCode: edge.node.merchandise.price.currencyCode,
-            }))
+            cart.lines.edges.map((edge: any) => {
+              const sizeAttr = edge.node.attributes?.find((a: any) => a.key === 'Talle');
+              return {
+                id: edge.node.id,
+                variantId: edge.node.merchandise.id,
+                title: edge.node.merchandise.product.title,
+                price: edge.node.merchandise.price.amount,
+                compareAtPrice: edge.node.merchandise.compareAtPrice?.amount,
+                quantity: edge.node.quantity,
+                image: edge.node.merchandise.product.featuredImage?.url || '',
+                handle: edge.node.merchandise.product.handle,
+                currencyCode: edge.node.merchandise.price.currencyCode,
+                selectedSize: sizeAttr ? parseInt(sizeAttr.value, 10) : undefined,
+              };
+            })
           );
         }
       });

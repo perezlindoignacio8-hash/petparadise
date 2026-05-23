@@ -157,6 +157,11 @@ export default function CartDrawer() {
                       <p className="text-sm font-bold text-slate-800 mt-1">
                         {formatPrice(item.price, item.currencyCode)}
                       </p>
+                      {item.selectedSize && (
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          Talle: <span className="font-bold text-gray-700">{item.selectedSize}</span>
+                        </p>
+                      )}
 
                       {/* Quantity controls */}
                       <div className="flex items-center gap-2 mt-2">

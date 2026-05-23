@@ -201,6 +201,10 @@ export const CREATE_CART_MUTATION = `
             node {
               id
               quantity
+              attributes {
+                key
+                value
+              }
               merchandise {
                 ... on ProductVariant {
                   id
@@ -257,6 +261,10 @@ export const ADD_TO_CART_MUTATION = `
             node {
               id
               quantity
+              attributes {
+                key
+                value
+              }
               merchandise {
                 ... on ProductVariant {
                   id
@@ -313,6 +321,10 @@ export const UPDATE_CART_MUTATION = `
             node {
               id
               quantity
+              attributes {
+                key
+                value
+              }
               merchandise {
                 ... on ProductVariant {
                   id
@@ -369,6 +381,10 @@ export const REMOVE_FROM_CART_MUTATION = `
             node {
               id
               quantity
+              attributes {
+                key
+                value
+              }
               merchandise {
                 ... on ProductVariant {
                   id

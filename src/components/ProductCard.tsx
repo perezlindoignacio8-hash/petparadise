@@ -69,15 +69,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           GRATIS
         </div>
         <div className="relative w-full h-full">
-          {isArgentina ? (
-            <Image
-              src="/productomundial.png"
-              alt={product.title}
-              fill
-              className="object-cover group-hover:scale-110 transition-transform duration-700"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            />
-          ) : imageUrl.startsWith('/products/') ? (
+          {imageUrl.startsWith('/products/') || (isArgentina && imageUrl === '/placeholder-product.jpg') ? (
             // Placeholder for demo products
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-slate-50 group-hover:to-slate-100 transition-colors duration-500">
               <div className="text-center p-4">

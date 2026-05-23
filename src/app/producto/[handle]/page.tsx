@@ -119,6 +119,7 @@ export default function ProductoPage() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const { addItem } = useCart();
   const autoAddedRef = useRef(false);
 
@@ -227,8 +228,12 @@ export default function ProductoPage() {
               </svg>
               GRATIS
             </div>
-            {handle === 'kit-argentina-mundial-2026' ? (
-              <Image src="/productomundial.png" alt={product.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" priority />
+            {isDemo && handle === 'kit-argentina-mundial-2026' ? (
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                <span className="text-8xl">🐕</span>
+              </div>
+            ) : handle === 'kit-argentina-mundial-2026' && currentImage ? (
+              <Image src={currentImage.url} alt={product.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" priority />
             ) : isDemo ? (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
                 <span className="text-8xl">{product.productType === 'Gatos' ? '🐱' : '🐕'}</span>
@@ -363,6 +368,26 @@ export default function ProductoPage() {
                   <div className="argentina-countdown">
                     <CountdownTimer />
                   </div>
+
+                  {/* Sizes Selection */}
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-4">Elegí el talle:</label>
+                    <div className="grid grid-cols-6 gap-2">
+                      {Array.from({ length: 11 }, (_, i) => i + 2).map((size) => (
+                        <button
+                          key={size}
+                          onClick={() => setSelectedSize(size)}
+                          className={`py-3 px-2 rounded-xl font-black text-sm transition-all duration-300 border-2 ${
+                            selectedSize === size
+                              ? 'bg-sky-400 text-white border-sky-400 shadow-lg'
+                              : 'bg-white text-sky-400 border-sky-300 hover:border-sky-400'
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </>
               )}
 
@@ -393,7 +418,7 @@ export default function ProductoPage() {
               </div>
 
               {/* Add to Cart */}
-              <button onClick={() => addItem(product, quantity)}
+              <button onClick={() => addItem(product, quantity, handle === 'kit-argentina-mundial-2026' ? selectedSize || undefined : undefined)}
                 className={`w-full text-white font-black py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 text-lg md:text-xl mt-8 mb-4 ${
                   handle === 'kit-argentina-mundial-2026'
                     ? 'bg-sky-400 hover:bg-sky-500'
@@ -471,6 +496,121 @@ export default function ProductoPage() {
 
         <ProductReviews reviews={productReviews} />
       </>
+    )}
+
+    {handle === 'kit-argentina-mundial-2026' && (
+      <section className="relative py-20 md:py-28 bg-sky-400">
+        {/* Top wave */}
+        <svg
+          className="absolute top-0 left-0 w-full h-12 md:h-20 -translate-y-[1px]"
+          viewBox="0 0 1440 80"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <path
+            fill="white"
+            d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,0 L0,0 Z"
+          />
+        </svg>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">
+              Tu mascota también es <span className="underline decoration-white/40 decoration-4 underline-offset-4">campeona del mundo</span>
+            </h2>
+            <p className="text-white/90 text-base md:text-lg">
+              Vestí a tu mascota con los colores de Argentina y celebrá juntos la pasión por el fútbol, porque en casa celebramos todos.
+            </p>
+          </div>
+
+          {/* Two columns - Solution & Image */}
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 items-center mb-16">
+            {/* Left: white card with bullets */}
+            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl order-2 md:order-1">
+              <div className="inline-block px-3 py-1 rounded-full mb-4 bg-sky-100">
+                <span className="text-xs font-black uppercase tracking-widest text-sky-800">La Solución</span>
+              </div>
+              <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 leading-tight">
+                Tu perro merece representar a Argentina.
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  'Tu perro merece sentirse parte de la familia durante el Mundial.',
+                  'Los colores de Argentina lo hacen sentir especial en cada paseo.',
+                  'Representa con orgullo a nuestro país junto a tu mejor amigo.',
+                  'Celebrá el fútbol y la amistad en una sola prenda.',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-gray-700 text-sm md:text-base leading-relaxed">
+                    <svg className="w-6 h-6 shrink-0 mt-0.5 text-sky-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
+                      <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                    </svg>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Right: Family image */}
+            <div className="order-1 md:order-2">
+              <div className="rounded-3xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/familiamundial.png"
+                  alt="Familia Mundial 2026"
+                  width={600}
+                  height={600}
+                  loading="lazy"
+                  quality={65}
+                  sizes="(max-width: 768px) 100vw, 600px"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Social Proof */}
+          <div className="backdrop-blur border rounded-2xl p-8 mb-12 bg-white/15 border-white/20">
+            <div className="text-center mb-6">
+              <span className="text-white text-sm font-bold uppercase tracking-widest">Prueba Social</span>
+            </div>
+            <div className="flex justify-center gap-6 md:gap-12">
+              {[
+                { stat: '+350', label: 'Clientes satisfechos' },
+                { stat: '4.5★', label: 'Calificación promedio' },
+                { stat: '100%', label: 'Garantía de satisfacción' },
+              ].map((item) => (
+                <div key={item.label} className="text-center flex-1">
+                  <div className="text-2xl md:text-3xl font-black text-white mb-2">{item.stat}</div>
+                  <p className="text-white/80 text-xs md:text-sm">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="inline-block font-black py-4 px-8 md:px-12 rounded-2xl text-lg md:text-xl transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-xl bg-white text-sky-400 hover:bg-sky-50"
+            >
+              Alentar en familia
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom wave */}
+        <svg
+          className="absolute bottom-0 left-0 w-full h-12 md:h-20 translate-y-[1px] rotate-180"
+          viewBox="0 0 1440 80"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <path
+            fill="white"
+            d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,0 L0,0 Z"
+          />
+        </svg>
+      </section>
     )}
     </>
   );
