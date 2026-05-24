@@ -121,7 +121,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Add to Cart Button */}
         <button
           onClick={() => addItem(product)}
-          className={`w-full text-white text-sm font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-4 ${
+          className={`btn-shimmer w-full text-white text-sm font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-4 ${
             isArgentina
               ? 'bg-sky-400 hover:bg-sky-500'
               : 'bg-blue-600 hover:bg-blue-700'

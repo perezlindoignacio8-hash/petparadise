@@ -446,7 +446,7 @@ export default function ProductoPage() {
 
                 {/* Add to Cart */}
                 <button onClick={() => addItem(product, quantity, handle === 'kit-argentina-mundial-2026' ? selectedSize || undefined : undefined)}
-                  className={`w-full text-white font-black py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 text-lg md:text-xl mt-8 mb-4 ${handle === 'kit-argentina-mundial-2026'
+                  className={`btn-shimmer w-full text-white font-black py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 text-lg md:text-xl mt-8 mb-4 ${handle === 'kit-argentina-mundial-2026'
                       ? 'bg-sky-400 hover:bg-sky-500'
                       : 'bg-blue-600 hover:bg-blue-700'
                     }`}
