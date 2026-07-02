@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getProductByHandle, formatPrice } from '@/lib/shopify';
+import { sanitizeHtml } from '@/lib/sanitize';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/types/shopify';
 
@@ -118,7 +119,7 @@ export default function ProductoPage() {
             </span>
           </div>
 
-          <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: product.descriptionHtml || `<p>${product.description}</p>` }} />
+          <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
 
           {/* Quantity */}
           <div className="flex items-center gap-4">
