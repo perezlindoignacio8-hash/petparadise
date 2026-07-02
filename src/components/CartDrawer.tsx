@@ -2,7 +2,9 @@
 
 import { useCart } from '@/context/CartContext';
 import { formatPrice } from '@/lib/shopify';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { useRouter } from 'next/navigation';
 
 export default function CartDrawer() {
   const {
@@ -17,6 +19,27 @@ export default function CartDrawer() {
     checkout,
   } = useCart();
 
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  // Handle open/close with delay for exit animation
+  useEffect(() => {
+    if (isOpen) {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+      setVisible(true);
+    } else {
+      // Wait for the slide-out animation before unmounting
+      closeTimerRef.current = setTimeout(() => setVisible(false), 350);
+    }
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, [isOpen]);
+
   // Lock body scroll when cart is open
   useEffect(() => {
     if (isOpen) {
@@ -29,23 +52,41 @@ export default function CartDrawer() {
     };
   }, [isOpen]);
 
-  return (
+  // Don't render anything until mounted on client, and don't render when fully closed
+  if (!mounted || !visible) return null;
+
+  return createPortal(
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] transition-opacity duration-300 ${
-          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
         onClick={closeCart}
         id="cart-backdrop"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          zIndex: 9998,
+          opacity: isOpen ? 1 : 0,
+          transition: 'opacity 200ms',
+        }}
       />
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-white z-[70] shadow-2xl transform transition-transform duration-300 ease-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
         id="cart-drawer"
+        style={{
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          height: '100vh',
+          width: '100%',
+          maxWidth: '28rem',
+          backgroundColor: '#fff',
+          zIndex: 9999,
+          boxShadow: '-4px 0 25px rgba(0,0,0,0.15)',
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 300ms ease-out',
+        }}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
@@ -53,7 +94,7 @@ export default function CartDrawer() {
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-bold text-gray-900">Tu Carrito</h2>
               {totalQuantity > 0 && (
-                <span className="bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                <span className="bg-slate-800 text-white text-xs font-bold px-2.5 py-1 rounded-full">
                   {totalQuantity}
                 </span>
               )}
@@ -82,8 +123,8 @@ export default function CartDrawer() {
                   Agregá productos para empezar a comprar
                 </p>
                 <button
-                  onClick={closeCart}
-                  className="bg-red-600 text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-red-700 transition-colors"
+                  onClick={() => { closeCart(); router.push('/catalogo'); }}
+                  className="bg-slate-800 text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-slate-900 transition-colors"
                 >
                   Explorar productos
                 </button>
@@ -113,16 +154,21 @@ export default function CartDrawer() {
                       <h4 className="text-sm font-bold text-gray-900 truncate">
                         {item.title}
                       </h4>
-                      <p className="text-sm font-bold text-red-600 mt-1">
+                      <p className="text-sm font-bold text-slate-800 mt-1">
                         {formatPrice(item.price, item.currencyCode)}
                       </p>
+                      {item.selectedSize && (
+                        <p className="text-xs text-gray-500 mt-0.5">
+                          Talle: <span className="font-bold text-gray-700">{item.selectedSize}</span>
+                        </p>
+                      )}
 
                       {/* Quantity controls */}
                       <div className="flex items-center gap-2 mt-2">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           disabled={isLoading}
-                          className="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm disabled:opacity-50"
+                          className="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-gray-600 hover:bg-slate-50 hover:text-slate-800 transition-colors shadow-sm disabled:opacity-50"
                         >
                           −
                         </button>
@@ -132,7 +178,7 @@ export default function CartDrawer() {
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           disabled={isLoading}
-                          className="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors shadow-sm disabled:opacity-50"
+                          className="w-7 h-7 bg-white rounded-lg flex items-center justify-center text-gray-600 hover:bg-slate-50 hover:text-slate-800 transition-colors shadow-sm disabled:opacity-50"
                         >
                           +
                         </button>
@@ -143,7 +189,7 @@ export default function CartDrawer() {
                     <button
                       onClick={() => removeItem(item.id)}
                       disabled={isLoading}
-                      className="p-1 text-gray-400 hover:text-red-600 transition-colors self-start disabled:opacity-50"
+                      className="p-1 text-gray-400 hover:text-slate-800 transition-colors self-start disabled:opacity-50"
                       aria-label="Eliminar"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
@@ -169,7 +215,7 @@ export default function CartDrawer() {
               <button
                 onClick={checkout}
                 disabled={isLoading}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95 shadow-lg hover:shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95 shadow-lg hover:shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
                 id="checkout-button"
               >
                 {isLoading ? (
@@ -187,6 +233,7 @@ export default function CartDrawer() {
           )}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 }

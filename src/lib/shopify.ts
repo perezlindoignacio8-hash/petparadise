@@ -244,13 +244,17 @@ export async function getProductByHandle(handle: string): Promise<Product | null
   }
 }
 
-export async function createCart(variantId: string, quantity: number): Promise<Cart | null> {
+export async function createCart(variantId: string, quantity: number, attributes?: { key: string; value: string }[]): Promise<Cart | null> {
   if (!isShopifyConfigured()) return null;
 
   try {
+    const line: Record<string, unknown> = { merchandiseId: variantId, quantity };
+    if (attributes && attributes.length > 0) {
+      line.attributes = attributes;
+    }
     const data = await shopifyFetch<{ cartCreate: { cart: Cart } }>(
       CREATE_CART_MUTATION,
-      { input: { lines: [{ merchandiseId: variantId, quantity }] } }
+      { input: { lines: [line] } }
     );
     return data.cartCreate.cart;
   } catch (error) {
@@ -259,13 +263,17 @@ export async function createCart(variantId: string, quantity: number): Promise<C
   }
 }
 
-export async function addToCart(cartId: string, variantId: string, quantity: number): Promise<Cart | null> {
+export async function addToCart(cartId: string, variantId: string, quantity: number, attributes?: { key: string; value: string }[]): Promise<Cart | null> {
   if (!isShopifyConfigured()) return null;
 
   try {
+    const line: Record<string, unknown> = { merchandiseId: variantId, quantity };
+    if (attributes && attributes.length > 0) {
+      line.attributes = attributes;
+    }
     const data = await shopifyFetch<{ cartLinesAdd: { cart: Cart } }>(
       ADD_TO_CART_MUTATION,
-      { cartId, lines: [{ merchandiseId: variantId, quantity }] }
+      { cartId, lines: [line] }
     );
     return data.cartLinesAdd.cart;
   } catch (error) {

@@ -2,23 +2,24 @@
 
 export default function AnnouncementBar() {
   const messages = [
-    'ENVÍOS GRATIS',
+    'ENVÍOS GRATIS A TODO EL PAÍS',
     '3 CUOTAS SIN INTERÉS',
-    'ENVÍOS GRATIS',
+    '🔥 DESCUENTOS POR TIEMPO LIMITADO 🔥',
+    'ENVÍOS GRATIS A TODO EL PAÍS',
     '3 CUOTAS SIN INTERÉS',
-    'ENVÍOS GRATIS',
+    '🔥 DESCUENTOS POR TIEMPO LIMITADO 🔥',
+    'ENVÍOS GRATIS A TODO EL PAÍS',
     '3 CUOTAS SIN INTERÉS',
-    'ENVÍOS GRATIS',
-    '3 CUOTAS SIN INTERÉS',
+    '🔥 DESCUENTOS POR TIEMPO LIMITADO 🔥',
   ];
 
   return (
-    <div className="announcement-bar bg-red-600 text-white overflow-hidden whitespace-nowrap">
-      <div className="announcement-bar__track flex animate-marquee">
+    <div className="announcement-bar bg-slate-800 text-white overflow-hidden whitespace-nowrap">
+      <div className="announcement-bar__track flex animate-marquee w-max">
         {messages.map((msg, i) => (
           <span
             key={i}
-            className="inline-block px-8 py-2 text-xs font-bold tracking-widest uppercase"
+            className="shrink-0 px-4 sm:px-8 py-2 text-xs font-bold tracking-widest uppercase"
           >
             {msg}
           </span>
@@ -27,7 +28,7 @@ export default function AnnouncementBar() {
         {messages.map((msg, i) => (
           <span
             key={`dup-${i}`}
-            className="inline-block px-8 py-2 text-xs font-bold tracking-widest uppercase"
+            className="shrink-0 px-4 sm:px-8 py-2 text-xs font-bold tracking-widest uppercase"
           >
             {msg}
           </span>

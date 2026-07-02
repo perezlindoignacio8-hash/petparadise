@@ -18,10 +18,7 @@ export default function SearchBar({ onSearch, placeholder = 'Buscar productos...
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setQuery(val);
-    // Debounced search on type
-    if (val === '') {
-      onSearch('');
-    }
+    onSearch(val);
   };
 
   return (
@@ -46,7 +43,7 @@ export default function SearchBar({ onSearch, placeholder = 'Buscar productos...
           value={query}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
+          className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-700/20 focus:border-slate-700 transition-all"
           id="search-input"
         />
         {query && (

@@ -4,8 +4,10 @@
    CSS Variables & Base
    ============================================================ */
 :root {
-  --color-primary: #dc2626;
-  --color-primary-dark: #b91c1c;
+  --color-primary: #1e293b;
+  --color-primary-dark: #0f172a;
+  --color-accent: #2563eb;
+  --color-accent-dark: #1d4ed8;
   --font-body: 'Inter', sans-serif;
   --font-heading: 'Poppins', sans-serif;
 }
@@ -14,7 +16,37 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
 }
+
+/* Repeating logo watermark background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/logo.png');
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure all direct children of body sit above the watermark */
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Modal overlay should be on top */
+body > div[style*="z-[9999]"] {
+  z-index: 9999;
+}
+
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
@@ -31,11 +63,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+  will-change: transform;
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation: marquee 15s linear infinite;
+  }
 }
+
 
 @keyframes bounce-in {
   0% { transform: scale(0); opacity: 0; }
@@ -56,6 +92,15 @@ h1, h2, h3, h4, h5, h6 {
   animation: slide-down 0.3s ease-out;
 }
 
+@keyframes slide-up {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-in;
+}
+
 @keyframes pulse-subtle {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.85; }
@@ -74,6 +119,48 @@ h1, h2, h3, h4, h5, h6 {
   animation: fade-in-up 0.6s ease-out;
 }
 
+@keyframes blink-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) skewX(-20deg); }
+  100% { transform: translateX(250%) skewX(-20deg); }
+}
+
+.btn-shimmer {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2.5s infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.animate-blink-pulse {
+  animation: blink-pulse 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.6)) drop-shadow(0 0 12px rgba(37, 99, 235, 0.3));
+}
+
+.argentina-countdown-timer {
+  background: linear-gradient(90deg, #60A5FA 0%, #FBBF24 50%, #60A5FA 100%);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -82,4 +169,64 @@ h1, h2, h3, h4, h5, h6 {
 
 main {
   animation: fade-in-up 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.wave-top {
+  background: linear-gradient(135deg, white 25%, transparent 25%) -10px 0,
+              linear-gradient(225deg, white 25%, transparent 25%) -10px 0,
+              linear-gradient(315deg, white 25%, transparent 25%),
+              linear-gradient(45deg, white 25%, transparent 25%);
+  background-size: 20px 20px;
+  background-color: #1e293b;
+}
+
+.wave-divider {
+  position: relative;
+  height: 80px;
+}
+
+/* ============================================================
+   Argentina Mundial 2026 Theme
+   ============================================================ */
+.argentina-theme {
+  --color-primary: #74B9FF;
+  --color-secondary: #ffffff;
+}
+
+.argentina-theme .bg-gradient-to-br {
+  background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+}
+
+/* ============================================================
+   Brand Consistency Notes
+   ============================================================ */
+/*
+   Primary Slate: bg-slate-800 / hover:bg-slate-900 / text-slate-800
+   Accent Blue: bg-blue-600 / hover:bg-blue-700 / text-blue-600
+   Rounded: rounded-2xl (buttons) / rounded-3xl (cards)
+   Shadows: shadow-lg (primary) / shadow-md (secondary)
+   Text: font-black (headings) / font-bold (body)
+   Badges: bg-slate-800 text-white text-xs font-black px-3 py-1 rounded-full
+   Cards: bg-white rounded-3xl p-6 md:p-8 shadow-lg
+*/
+
+.wave-divider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><defs><linearGradient id="grad"><stop offset="0%25" style="stop-color:white;stop-opacity:1" /><stop offset="100%25" style="stop-color:%231e293b;stop-opacity:1" /></linearGradient></defs><path d="M0,40 Q300,80 600,40 T1200,40 L1200,120 L0,120 Z" fill="white"/></svg>') no-repeat center bottom;
+  background-size: cover;
 }

@@ -34,7 +34,7 @@ export default function CatalogoPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div className="text-center mb-10">
-        <h1 className="text-4xl md:text-5xl font-black text-red-600 mb-3">Productos</h1>
+        <h1 className="text-4xl md:text-5xl font-black text-slate-800 mb-3">Productos</h1>
         <p className="text-gray-500 max-w-lg mx-auto text-sm md:text-base">
           Todo para consentir a tu mascota en un solo lugar. Encontrá productos de calidad, ofertas increíbles y accesorios que hacen su vida más feliz.
         </p>
