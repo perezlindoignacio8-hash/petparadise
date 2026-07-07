@@ -46,8 +46,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} ${poppins.variable}`}>
-      <body className="bg-white text-gray-900 antialiased font-[family-name:var(--font-inter)]">
+    <html lang="es" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
+      <body className="bg-white text-gray-900 antialiased font-[family-name:var(--font-inter)]" suppressHydrationWarning>
         <CartProvider>
           <MetaPixel />
           <TabTitleManager />

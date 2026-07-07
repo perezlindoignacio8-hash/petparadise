@@ -88,9 +88,6 @@ export default function VideoReviews({ videos }: VideoReviewsProps) {
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {videos.map((video) => (
           <div key={video.id} className="relative">
-            <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 bg-slate-800 text-white text-xs font-black px-3 py-1 rounded-full shadow-md whitespace-nowrap">
-              Incluido en el kit
-            </div>
             <button
               onClick={() => setSelectedVideo(video.id)}
               className="relative group overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 w-full"

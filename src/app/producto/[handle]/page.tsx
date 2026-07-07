@@ -12,7 +12,6 @@ import ProductReviews, { type Review } from '@/components/ProductReviews';
 import StickyProductBar from '@/components/StickyProductBar';
 import VideoReviews from '@/components/VideoReviews';
 import PainPointSection from '@/components/PainPointSection';
-import ProductDescription from '@/components/ProductDescription';
 
 const productReviews: Review[] = [
   {
@@ -208,8 +207,8 @@ export default function ProductoPage() {
         <span className="text-6xl block mb-4">😿</span>
         <h1 className="text-2xl font-bold mb-2">Producto no encontrado</h1>
         <p className="text-gray-500 mb-6">No pudimos encontrar el producto que buscás.</p>
-        <Link href="/catalogo" className="bg-blue-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-slate-900 transition-colors">
-          Volver al catálogo
+        <Link href="/" className="bg-blue-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-slate-900 transition-colors">
+          Volver al inicio
         </Link>
       </div>
     );
@@ -229,8 +228,6 @@ export default function ProductoPage() {
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-gray-400">
           <Link href="/" className="hover:text-slate-800 transition-colors">Inicio</Link>
-          <span className="mx-2">/</span>
-          <Link href="/catalogo" className="hover:text-slate-800 transition-colors">Catálogo</Link>
           <span className="mx-2">/</span>
           <span className="text-gray-700">{product.title}</span>
         </nav>
@@ -288,11 +285,6 @@ export default function ProductoPage() {
 
             {handle === 'kit-premium-de-paseo-para-perros' && (
               <VideoReviews videos={[
-                {
-                  id: 'video1',
-                  title: '',
-                  videoUrl: '/review1.mp4'
-                },
                 {
                   id: 'video2',
                   title: '',
@@ -457,32 +449,45 @@ export default function ProductoPage() {
                   Agregar al carrito
                 </button>
 
-                {/* What's Included Section */}
-                <div className={`rounded-3xl p-8 border ${handle === 'kit-argentina-mundial-2026'
-                    ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-sky-200'
-                    : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
-                  }`}>
-                  <h3 className="text-2xl font-black text-gray-900 mb-8 text-center">Qué incluye tu compra</h3>
+                {/* Shopify description */}
+                {(product.descriptionHtml || product.description) && (
+                  <div className={`rounded-3xl p-8 border ${handle === 'kit-argentina-mundial-2026'
+                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-sky-200'
+                      : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
+                    }`}>
+                    <h3 className="text-2xl font-black text-gray-900 mb-6 text-center">Descripción</h3>
+                    <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: product.descriptionHtml || `<p>${product.description}</p>` }} />
+                  </div>
+                )}
 
-                  <div className="flex flex-row gap-4 md:gap-8 justify-center items-stretch">
-                    {PRODUCT_CONFIGS[handle].descriptionItems.map((item: any) => (
-                      <div key={item.title} className="flex flex-col items-center text-center flex-1">
-                        <div className={`w-20 h-20 md:w-24 md:h-24 ${item.bgColor} rounded-2xl flex items-center justify-center text-4xl md:text-5xl mb-3 md:mb-4 shadow-md`}>
-                          {item.icon}
+                {/* What's Included Section - solo para Argentina y Kit Higiene */}
+                {handle !== 'kit-premium-de-paseo-para-perros' && (
+                  <div className={`rounded-3xl p-8 border ${handle === 'kit-argentina-mundial-2026'
+                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-sky-200'
+                      : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
+                    }`}>
+                    <h3 className="text-2xl font-black text-gray-900 mb-8 text-center">Qué incluye tu compra</h3>
+
+                    <div className="flex flex-row gap-4 md:gap-8 justify-center items-stretch">
+                      {PRODUCT_CONFIGS[handle].descriptionItems.map((item: any) => (
+                        <div key={item.title} className="flex flex-col items-center text-center flex-1">
+                          <div className={`w-20 h-20 md:w-24 md:h-24 ${item.bgColor} rounded-2xl flex items-center justify-center text-4xl md:text-5xl mb-3 md:mb-4 shadow-md`}>
+                            {item.icon}
+                          </div>
+                          <h4 className="font-black text-gray-900 text-xs md:text-sm mb-1 md:mb-2">{item.title}</h4>
+                          <p className="text-[10px] md:text-xs text-gray-600 leading-relaxed">{item.description}</p>
                         </div>
-                        <h4 className="font-black text-gray-900 text-xs md:text-sm mb-1 md:mb-2">{item.title}</h4>
-                        <p className="text-[10px] md:text-xs text-gray-600 leading-relaxed">{item.description}</p>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
 
-                  {/* Highlight */}
-                  <div className="mt-8 pt-6 border-t border-gray-200">
-                    <p className="text-center text-sm font-bold text-gray-900">
-                      ✨ <span className="text-slate-800">{PRODUCT_CONFIGS[handle].descriptionItems.length} productos en 1 kit</span> - Todo lo que necesitas
-                    </p>
+                    {/* Highlight */}
+                    <div className="mt-8 pt-6 border-t border-gray-200">
+                      <p className="text-center text-sm font-bold text-gray-900">
+                        ✨ <span className="text-slate-800">{PRODUCT_CONFIGS[handle].descriptionItems.length} productos en 1 kit</span> - Todo lo que necesitas
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Features pills */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 pt-6">
@@ -494,17 +499,6 @@ export default function ProductoPage() {
                     </div>
                   ))}
                 </div>
-
-                {/* Shopify description */}
-                {(product.descriptionHtml || product.description) && (
-                  <div className={`rounded-3xl p-8 border mt-6 ${handle === 'kit-argentina-mundial-2026'
-                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-sky-200'
-                      : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
-                    }`}>
-                    <h3 className="text-2xl font-black text-gray-900 mb-6 text-center">Descripción</h3>
-                    <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: product.descriptionHtml || `<p>${product.description}</p>` }} />
-                  </div>
-                )}
               </div>
             ) : (
               <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: product.descriptionHtml || `<p>${product.description}</p>` }} />

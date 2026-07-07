@@ -49,6 +49,13 @@ const adventures = [
 export default function BotellaPortatil() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      {/* Section title */}
+      <div className="text-center mb-8 md:mb-12 max-w-3xl mx-auto">
+        <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
+          ¿Por qué comprar la botella para sus paseos?
+        </h2>
+      </div>
+
       {/* Features Card */}
       <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-3 md:p-8 grid grid-cols-4 gap-1 md:gap-6 max-w-5xl mx-auto relative z-30 pointer-events-auto">
         {features.map((f, i) => (

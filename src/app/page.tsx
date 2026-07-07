@@ -1,20 +1,45 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import HomeHero from '@/components/HomeHero';
 import BotellaPortatil from '@/components/BotellaPortatil';
 import PainPointSection from '@/components/PainPointSection';
 import ReviewsSection from '@/components/ReviewsSection';
 import ArgentinaShowcase from '@/components/ArgentinaShowcase';
+import ProductCard from '@/components/ProductCard';
+import { getProductByHandle } from '@/lib/shopify';
+import type { Product } from '@/types/shopify';
 
 export default function HomePage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const isArgentinaSlide = currentSlide === 0;
+  const [, setCurrentSlide] = useState(0);
+  const [featuredProduct, setFeaturedProduct] = useState<Product | null>(null);
+  const isArgentinaSlide = false;
+
+  useEffect(() => {
+    getProductByHandle('kit-premium-de-paseo-para-perros').then((p) => {
+      if (p) setFeaturedProduct(p);
+    });
+  }, []);
 
   return (
     <>
       <HomeHero key="home-hero" onSlideChange={setCurrentSlide} />
+
+      {/* Featured Product Card */}
+      {featuredProduct && (
+        <section className="py-12 md:py-16 bg-white" id="featured-product">
+          <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-2">
+                Nuestro producto estrella
+              </h2>
+              <p className="text-gray-500 text-sm">Todo lo que tu mascota necesita en un solo kit</p>
+            </div>
+            <ProductCard product={featuredProduct} />
+          </div>
+        </section>
+      )}
 
       <PainPointSection
         ctaHref="/producto/kit-premium-de-paseo-para-perros"
@@ -27,23 +52,6 @@ export default function HomePage() {
       {isArgentinaSlide && <ArgentinaShowcase />}
       {!isArgentinaSlide && <BotellaPortatil />}
 
-      {/* CTA to catalog */}
-      <div className="text-center mt-10 px-4">
-        <a
-          href="/catalogo"
-          className={`inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-500 transform hover:scale-105 shadow-lg ${
-            isArgentinaSlide
-              ? 'bg-sky-400 hover:bg-sky-500 text-white'
-              : 'bg-gray-900 hover:bg-gray-800 text-white'
-          }`}
-          id="view-all-products"
-        >
-          Ver todos los productos
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-          </svg>
-        </a>
-      </div>
 
       {/* Why Us Section - Premium Benefits */}
       <section className="relative py-16 md:py-24 overflow-hidden bg-white" id="why-us">

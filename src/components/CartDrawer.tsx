@@ -123,7 +123,7 @@ export default function CartDrawer() {
                   Agregá productos para empezar a comprar
                 </p>
                 <button
-                  onClick={() => { closeCart(); router.push('/catalogo'); }}
+                  onClick={() => { closeCart(); router.push('/'); }}
                   className="bg-slate-800 text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-slate-900 transition-colors"
                 >
                   Explorar productos

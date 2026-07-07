@@ -50,12 +50,6 @@ export default function Header() {
               Inicio
             </Link>
             <Link
-              href="/catalogo"
-              className="text-sm font-medium text-gray-700 hover:text-slate-800 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-slate-800 after:transition-all hover:after:w-full"
-            >
-              Catálogo
-            </Link>
-            <Link
               href="/contacto"
               className="text-sm font-medium text-gray-700 hover:text-slate-800 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-slate-800 after:transition-all hover:after:w-full"
             >
@@ -136,13 +130,6 @@ export default function Header() {
                 className="px-4 py-3 text-sm font-medium text-gray-700 hover:bg-slate-50 hover:text-slate-800 rounded-lg transition-colors"
               >
                 Inicio
-              </Link>
-              <Link
-                href="/catalogo"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-3 text-sm font-medium text-gray-700 hover:bg-slate-50 hover:text-slate-800 rounded-lg transition-colors"
-              >
-                Catálogo
               </Link>
               <Link
                 href="/contacto"

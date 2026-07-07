@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="relative">
       {isFeatured && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 bg-gradient-to-r from-yellow-400 to-amber-500 text-white text-[11px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap">
-          ⭐ Producto Estrella
+          ⭐ Producto Destacado
         </div>
       )}
       {isArgentina && (
