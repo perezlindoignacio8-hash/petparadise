@@ -25,13 +25,28 @@ export const isShopifyConfigured = () => {
 // Detect if token is private (shpss_ or shpat_) or public
 const isPrivateToken = token.startsWith('shpss_') || token.startsWith('shpat_');
 
+// A private token must NEVER be sent from the browser. If a private token was
+// exposed via a NEXT_PUBLIC_ variable, refuse to use it on the client.
+const isBrowser = typeof window !== 'undefined';
+if (isBrowser && isPrivateToken) {
+  console.error(
+    'Shopify: se detectó un token PRIVADO en el cliente. No se enviará. ' +
+    'Usá un Storefront Access Token público en NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN.'
+  );
+}
+
 // Generic fetch function for Shopify Storefront API
 async function shopifyFetch<T>(query: string, variables: Record<string, unknown> = {}): Promise<T> {
+  if (isBrowser && isPrivateToken) {
+    throw new Error('Shopify no está configurado de forma segura para el navegador.');
+  }
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
 
   if (isPrivateToken) {
+    // Private tokens only travel from the server.
     headers['Shopify-Storefront-Private-Token'] = token;
   } else {
     headers['X-Shopify-Storefront-Access-Token'] = token;

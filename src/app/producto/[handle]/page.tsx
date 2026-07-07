@@ -5,6 +5,7 @@ import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getProductByHandle, formatPrice } from '@/lib/shopify';
+import { sanitizeHtml } from '@/lib/sanitize';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/types/shopify';
 import CountdownTimer from '@/components/CountdownTimer';
@@ -456,7 +457,7 @@ export default function ProductoPage() {
                       : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
                     }`}>
                     <h3 className="text-2xl font-black text-gray-900 mb-6 text-center">Descripción</h3>
-                    <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: product.descriptionHtml || `<p>${product.description}</p>` }} />
+                    <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
                   </div>
                 )}
 
@@ -501,7 +502,7 @@ export default function ProductoPage() {
                 </div>
               </div>
             ) : (
-              <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: product.descriptionHtml || `<p>${product.description}</p>` }} />
+              <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
             )}
           </div>
         </div>
