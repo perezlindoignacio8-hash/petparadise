@@ -332,21 +332,24 @@ export default function ProductoPage() {
             <div>
               <div className="flex items-center gap-3 flex-wrap">
                 {hasDiscount && (
-                  <span className="text-xl text-gray-400 line-through">{formatPrice(compareAt.amount, compareAt.currencyCode)}</span>
+                  <span className="text-xl md:text-2xl text-gray-400 line-through">{formatPrice(compareAt.amount, compareAt.currencyCode)}</span>
                 )}
-                <span className={`text-3xl font-black ${hasDiscount ? 'text-slate-800' : 'text-gray-900'}`}>
+                <span className={`text-5xl md:text-6xl font-black flex items-center gap-2 ${hasDiscount ? 'text-slate-800' : 'text-gray-900'}`}>
+                  <span className="animate-pulse">🔥</span>
                   {formatPrice(price.amount, price.currencyCode)}
+                  <span className="animate-pulse">🔥</span>
                 </span>
                 {hasDiscount && (
-                  <span className={`text-white text-sm font-black px-3 py-1 rounded-full ${handle === 'kit-argentina-mundial-2026'
+                  <span className={`text-white text-base md:text-lg font-black px-4 py-1.5 rounded-full animate-pulse shadow-lg ${handle === 'kit-argentina-mundial-2026'
                       ? 'bg-sky-400'
-                      : 'bg-slate-800'
+                      : 'bg-red-600'
                     }`}>
                     -{Math.round((1 - parseFloat(price.amount) / parseFloat(compareAt.amount)) * 100)}% OFF
                   </span>
                 )}
               </div>
-              <p className="text-sm text-green-600 font-medium mt-1">
+              <p className="text-sm md:text-base text-green-600 font-bold mt-2 flex items-center gap-1">
+                <span>💳</span>
                 3 cuotas sin interés x {formatPrice((parseFloat(price.amount) / 3).toFixed(2), price.currencyCode)}
               </p>
             </div>

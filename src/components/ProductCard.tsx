@@ -108,11 +108,13 @@ export default function ProductCard({ product }: ProductCardProps) {
                   {formatPrice(compareAtPrice.amount, compareAtPrice.currencyCode)}
                 </span>
               )}
-              <span className={`text-lg font-bold ${hasDiscount ? 'text-slate-800' : 'text-gray-900'}`}>
+              <span className={`text-2xl md:text-3xl font-black flex items-center gap-1 ${hasDiscount ? 'text-slate-800' : 'text-gray-900'}`}>
+                <span className="text-lg animate-pulse">🔥</span>
                 {formatPrice(price.amount, price.currencyCode)}
               </span>
             </div>
-            <p className="text-xs text-green-600 font-medium mt-0.5">
+            <p className="text-xs text-green-600 font-bold mt-1 flex items-center gap-1">
+              <span>💳</span>
               3 cuotas sin interés x {formatPrice((parseFloat(price.amount) / 3).toFixed(2), price.currencyCode)}
             </p>
           </div>
