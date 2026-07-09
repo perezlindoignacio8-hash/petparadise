@@ -22,7 +22,17 @@ export default function CartDrawer() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [couponError, setCouponError] = useState('');
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleApplyCoupon = () => {
+    if (!couponCode.trim()) {
+      setCouponError('Por favor ingresá un código.');
+      return;
+    }
+    setCouponError('El cupón "' + couponCode.trim() + '" no existe o no es válido.');
+  };
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -300,7 +310,50 @@ export default function CartDrawer() {
           {/* Footer */}
           {items.length > 0 && (
             <div className="border-t border-gray-100 px-6 py-4 space-y-4">
-              <div className="flex items-center justify-between">
+              {/* Coupon Section */}
+              <details className="group">
+                <summary className="flex items-center justify-between cursor-pointer list-none">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-[#303854]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
+                    </svg>
+                    ¿Tenés un cupón de descuento?
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                  </svg>
+                </summary>
+                <div className="mt-3">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => { setCouponCode(e.target.value); setCouponError(''); }}
+                      onKeyDown={(e) => { if (e.key === 'Enter') handleApplyCoupon(); }}
+                      placeholder="Ingresá tu código"
+                      className="flex-1 px-4 py-2.5 text-sm border border-gray-200 rounded-full focus:outline-none focus:border-[#303854] focus:ring-1 focus:ring-[#303854] transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyCoupon}
+                      className="px-5 py-2.5 bg-[#303854] hover:bg-[#1F2540] text-white text-sm font-bold rounded-full transition-colors"
+                    >
+                      Aplicar
+                    </button>
+                  </div>
+                  {couponError && (
+                    <p className="mt-2 text-xs text-red-600 flex items-center gap-1.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
+                        <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clipRule="evenodd" />
+                      </svg>
+                      {couponError}
+                    </p>
+                  )}
+                </div>
+              </details>
+
+              <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                 <span className="text-sm text-gray-500">Subtotal</span>
                 <span className="text-xl font-black text-[#303854]">{totalAmount}</span>
               </div>
