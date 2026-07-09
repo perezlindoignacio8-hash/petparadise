@@ -61,18 +61,18 @@ export default function StickyProductBar({ product }: StickyProductBarProps) {
             </div>
           )}
           <div className="min-w-0 flex-1">
-            <h3 className="font-bold text-gray-900 text-sm sm:text-base truncate">{product.title}</h3>
+            <h3 className="font-bold text-[#303854] text-sm sm:text-base truncate">{product.title}</h3>
             <div className="flex items-center gap-2 sm:gap-3 mt-1 sm:mt-2 flex-wrap">
               {hasDiscount && (
                 <span className="text-xs sm:text-sm text-gray-500 line-through">
                   {formatPrice(compareAt.amount, compareAt.currencyCode)}
                 </span>
               )}
-              <span className="font-black text-xl sm:text-2xl text-slate-800">
+              <span className="font-black text-xl sm:text-2xl text-[#303854]">
                 {formatPrice(price.amount, price.currencyCode)}
               </span>
               {hasDiscount && (
-                <span className="bg-blue-600 text-white text-xs sm:text-sm font-black px-2.5 py-1 rounded-full">
+                <span className="bg-[#303854] text-white text-xs sm:text-sm font-black px-2.5 py-1 rounded-full">
                   {discountPercent}%
                 </span>
               )}
@@ -83,7 +83,7 @@ export default function StickyProductBar({ product }: StickyProductBarProps) {
         {/* Add to Cart Button */}
         <button
           onClick={() => addItem(product, quantity)}
-          className="shrink-0 w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 text-sm sm:text-base whitespace-nowrap shadow-lg"
+          className="shrink-0 w-full sm:w-auto bg-[#303854] hover:bg-[#1F2540] text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 text-sm sm:text-base whitespace-nowrap shadow-lg"
         >
           Añadir
         </button>

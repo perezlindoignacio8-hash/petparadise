@@ -35,7 +35,7 @@ export default function ContactoPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-black text-slate-800 mb-3">Contacto</h1>
+        <h1 className="text-4xl md:text-5xl font-black text-[#303854] mb-3">Contacto</h1>
         <p className="text-gray-500 max-w-lg mx-auto">
           ¿Tenés alguna consulta? ¡Estamos para ayudarte!
         </p>
@@ -48,13 +48,13 @@ export default function ContactoPage() {
             {/* Phone */}
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-slate-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-[#303854]">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                 </svg>
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">Teléfono</h3>
-                <a href="tel:+543424770030" className="text-gray-600 hover:text-slate-800 transition-colors">
+                <h3 className="font-bold text-[#303854] mb-1">Teléfono</h3>
+                <a href="tel:+543424770030" className="text-gray-600 hover:text-[#303854] transition-colors">
                   342-477-0030
                 </a>
               </div>
@@ -68,7 +68,7 @@ export default function ContactoPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">WhatsApp</h3>
+                <h3 className="font-bold text-[#303854] mb-1">WhatsApp</h3>
                 <a href="https://wa.me/543424770030" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-green-600 transition-colors">
                   +54 342 477 0030
                 </a>
@@ -78,12 +78,12 @@ export default function ContactoPage() {
             {/* Hours */}
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-[#7DB8E8]">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">Horario de atención</h3>
+                <h3 className="font-bold text-[#303854] mb-1">Horario de atención</h3>
                 <p className="text-gray-600 text-sm">Lunes a Viernes: 9:00 - 18:00</p>
                 <p className="text-gray-600 text-sm">Sábados: 9:00 - 13:00</p>
               </div>
@@ -106,7 +106,7 @@ export default function ContactoPage() {
 
         {/* Contact Form */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-sm">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Envianos un mensaje</h2>
+          <h2 className="text-xl font-bold text-[#303854] mb-6">Envianos un mensaje</h2>
 
           {status === 'success' && (
             <div className="mb-5 bg-green-50 border border-green-200 text-green-700 rounded-xl px-4 py-3 text-sm font-medium">
@@ -114,7 +114,7 @@ export default function ContactoPage() {
             </div>
           )}
           {status === 'error' && (
-            <div className="mb-5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl px-4 py-3 text-sm font-medium">
+            <div className="mb-5 bg-slate-50 border border-slate-200 text-[#303854] rounded-xl px-4 py-3 text-sm font-medium">
               ❌ Error al enviar. Intentá por WhatsApp.
             </div>
           )}
@@ -146,7 +146,7 @@ export default function ContactoPage() {
             </div>
             <button
               type="submit" disabled={loading}
-              className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95 shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
+              className="w-full bg-[#303854] hover:bg-[#303854] text-white font-bold py-3.5 rounded-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95 shadow-md disabled:opacity-60 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Enviando...</>

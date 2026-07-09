@@ -14,7 +14,7 @@ export default function AnnouncementBar() {
   ];
 
   return (
-    <div className="announcement-bar bg-slate-800 text-white overflow-hidden whitespace-nowrap">
+    <div className="announcement-bar bg-[#303854] text-white overflow-hidden whitespace-nowrap">
       <div className="announcement-bar__track flex animate-marquee w-max">
         {messages.map((msg, i) => (
           <span

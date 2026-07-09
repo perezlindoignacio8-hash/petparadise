@@ -114,13 +114,13 @@ function ReviewCard({ review, className = '' }: { review: Review; className?: st
         className="w-16 h-16 rounded-full object-cover border-2 border-slate-100 mb-4"
       />
 
-      <p className="font-bold text-gray-900 text-sm">
+      <p className="font-bold text-[#303854] text-sm">
         {review.name} — <span className="font-normal text-gray-500">{review.location}</span>
       </p>
 
       <p className="text-gray-600 text-sm leading-relaxed mt-3 italic">{review.text}</p>
 
-      <p className="text-slate-800 text-xs font-semibold mt-4 flex items-center gap-1">
+      <p className="text-[#303854] text-xs font-semibold mt-4 flex items-center gap-1">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">
           <path fillRule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
         </svg>
@@ -181,7 +181,7 @@ export default function ReviewsSection({ isArgentina = false }: ReviewsSectionPr
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-black text-[#303854] mb-2">
             Lo que dicen nuestros clientes
           </h2>
           <p className="text-gray-500 text-sm">
@@ -245,7 +245,7 @@ export default function ReviewsSection({ isArgentina = false }: ReviewsSectionPr
                 key={i}
                 onClick={() => { setCurrent(i); resetInterval(); }}
                 className={`rounded-full transition-all duration-300 ${
-                  i === current ? 'bg-slate-800 w-5 h-2.5' : 'bg-gray-300 w-2.5 h-2.5 hover:bg-gray-400'
+                  i === current ? 'bg-[#303854] w-5 h-2.5' : 'bg-gray-300 w-2.5 h-2.5 hover:bg-gray-400'
                 }`}
                 aria-label={`Reseña ${i + 1}`}
               />

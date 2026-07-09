@@ -54,7 +54,7 @@ export default function PainPointSection({
 
   return (
     <section className={`relative py-20 md:py-28 transition-colors duration-500 ${
-      isArgentina ? 'bg-sky-400' : 'bg-slate-800'
+      isArgentina ? 'bg-[#7DB8E8]' : 'bg-[#303854]'
     }`}>
       {/* Top wave */}
       <svg
@@ -86,20 +86,20 @@ export default function PainPointSection({
           {/* Left: white card with bullets - Solución */}
           <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl order-2 md:order-1">
             <div className={`inline-block px-3 py-1 rounded-full mb-4 ${
-              isArgentina ? 'bg-sky-100' : 'bg-green-100'
+              isArgentina ? 'bg-orange-100' : 'bg-green-100'
             }`}>
               <span className={`text-xs font-black uppercase tracking-widest ${
-                isArgentina ? 'text-sky-800' : 'text-green-800'
+                isArgentina ? 'text-[#303854]' : 'text-green-800'
               }`}>La Solución</span>
             </div>
-            <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 leading-tight">
+            <h3 className="text-xl md:text-2xl font-black text-[#303854] mb-6 leading-tight">
               {cardTitle ?? (isArgentina ? argentinaCardTitle : defaultCardTitle)}
             </h3>
             <ul className="space-y-4">
               {(bullets ?? (isArgentina ? argentinaBullets : defaultBullets)).map((item) => (
                 <li key={item} className="flex items-start gap-3 text-gray-700 text-sm md:text-base leading-relaxed">
                   <svg className={`w-6 h-6 shrink-0 mt-0.5 ${
-                    isArgentina ? 'text-sky-400' : 'text-green-600'
+                    isArgentina ? 'text-[#7DB8E8]' : 'text-green-600'
                   }`} fill="currentColor" viewBox="0 0 20 20" aria-hidden>
                     <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
                   </svg>
@@ -167,8 +167,8 @@ export default function PainPointSection({
                 href={finalCtaHref}
                 className={`inline-block font-black py-4 px-8 md:px-12 rounded-2xl text-lg md:text-xl transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-xl ${
                   isArgentina
-                    ? 'bg-white text-sky-400 hover:bg-sky-50'
-                    : 'bg-white text-slate-800 hover:bg-gray-100'
+                    ? 'bg-white text-[#7DB8E8] hover:bg-orange-50'
+                    : 'bg-white text-[#303854] hover:bg-gray-100'
                 }`}>
                 {isArgentina ? 'Alentar en familia' : 'Obtén tu Kit Premium Ahora'}
               </a>
@@ -179,8 +179,8 @@ export default function PainPointSection({
                 }}
                 className={`bg-white font-black py-4 px-8 md:px-12 rounded-2xl text-lg md:text-xl transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-xl ${
                   isArgentina
-                    ? 'text-sky-400 hover:bg-sky-50'
-                    : 'text-slate-800 hover:bg-gray-100'
+                    ? 'text-[#7DB8E8] hover:bg-orange-50'
+                    : 'text-[#303854] hover:bg-gray-100'
                 }`}>
                 {isArgentina ? 'Alentar en familia' : 'Obtén tu Kit Premium Ahora'}
               </button>

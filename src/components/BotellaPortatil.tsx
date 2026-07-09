@@ -51,7 +51,7 @@ export default function BotellaPortatil() {
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
       {/* Section title */}
       <div className="text-center mb-8 md:mb-12 max-w-3xl mx-auto">
-        <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
+        <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-[#303854] leading-tight">
           ¿Por qué comprar la botella para sus paseos?
         </h2>
       </div>
@@ -61,7 +61,7 @@ export default function BotellaPortatil() {
         {features.map((f, i) => (
           <div key={i} className="text-center px-0.5 md:px-1 flex flex-col items-center">
             <div className="text-teal-600 mb-1.5 md:mb-3 [&_svg]:w-6 [&_svg]:h-6 md:[&_svg]:w-9 md:[&_svg]:h-9">{f.icon}</div>
-            <h3 className="font-black text-gray-900 text-[10px] md:text-sm uppercase tracking-tight leading-tight">{f.title}</h3>
+            <h3 className="font-black text-[#303854] text-[10px] md:text-sm uppercase tracking-tight leading-tight">{f.title}</h3>
             <p className="text-gray-500 text-[9px] md:text-xs mt-1 md:mt-2 leading-tight md:leading-relaxed">{f.desc}</p>
           </div>
         ))}
@@ -69,10 +69,10 @@ export default function BotellaPortatil() {
 
       {/* Title */}
       <div className="text-center mt-14 md:mt-20 pointer-events-auto">
-        <p className="text-gray-900 font-black text-2xl md:text-3xl uppercase tracking-tight">IDEAL PARA</p>
+        <p className="text-[#303854] font-black text-2xl md:text-3xl uppercase tracking-tight">IDEAL PARA</p>
         <div className="inline-flex items-center gap-4 mt-2">
           <span className="text-gray-300 text-3xl select-none" aria-hidden>///</span>
-          <h2 className="text-slate-800 font-black text-4xl md:text-5xl uppercase tracking-tight">CADA AVENTURA</h2>
+          <h2 className="text-[#303854] font-black text-4xl md:text-5xl uppercase tracking-tight">CADA AVENTURA</h2>
           <span className="text-gray-300 text-3xl select-none" aria-hidden>\\\</span>
         </div>
         <p className="text-gray-500 mt-4 text-base md:text-lg">Tu compañero siempre hidratado, vos tranquilo.</p>

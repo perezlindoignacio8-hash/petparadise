@@ -24,7 +24,7 @@ export default function ProductGrid({ products, title, subtitle, featured = fals
       {(title || subtitle) && (
         <div className="text-center mb-10">
           {title && (
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">
+            <h2 className="text-3xl md:text-4xl font-black text-[#303854] mb-3">
               {title}
             </h2>
           )}
@@ -127,7 +127,7 @@ function BadgeCard({ icon, title, desc, gradient, border }: BadgeProps) {
   return (
     <div className={`bg-gradient-to-br ${gradient} ${border} border rounded-2xl p-4 text-center shadow-sm hover:shadow-md transition-shadow`}>
       <span className="text-3xl block mb-2">{icon}</span>
-      <h3 className="font-black text-gray-900 text-sm uppercase tracking-wide">{title}</h3>
+      <h3 className="font-black text-[#303854] text-sm uppercase tracking-wide">{title}</h3>
       <p className="text-xs text-gray-600 mt-1 leading-snug">{desc}</p>
     </div>
   );

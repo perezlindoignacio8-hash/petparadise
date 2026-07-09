@@ -20,7 +20,7 @@ export default function ProductDescription({
     <div className="space-y-8">
       {/* What's Included Section */}
       <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 border border-gray-100">
-        <h3 className="text-2xl font-black text-gray-900 mb-8 text-center">{title}</h3>
+        <h3 className="text-2xl font-black text-[#303854] mb-8 text-center">{title}</h3>
 
         <div className="flex flex-row gap-4 md:gap-8 justify-center">
           {items.map((item) => (
@@ -28,7 +28,7 @@ export default function ProductDescription({
               <div className={`w-20 h-20 md:w-24 md:h-24 ${item.bgColor} rounded-2xl flex items-center justify-center text-4xl md:text-5xl mb-3 md:mb-4 shadow-md`}>
                 {item.icon}
               </div>
-              <h4 className="font-black text-gray-900 text-xs md:text-sm mb-1 md:mb-2">{item.title}</h4>
+              <h4 className="font-black text-[#303854] text-xs md:text-sm mb-1 md:mb-2">{item.title}</h4>
               <p className="text-[10px] md:text-xs text-gray-600 leading-relaxed">{item.description}</p>
             </div>
           ))}

@@ -142,8 +142,8 @@ export default function FloatingNotification() {
               </div>
             </div>
             <div className="flex-1 min-w-0 pr-4">
-              <p className="font-black text-gray-900 text-xs md:text-sm leading-tight">
-                ✅ <span className="text-slate-800">{notification.name}</span> acaba de comprar
+              <p className="font-black text-[#303854] text-xs md:text-sm leading-tight">
+                ✅ <span className="text-[#303854]">{notification.name}</span> acaba de comprar
               </p>
               <p className="text-[11px] md:text-xs text-gray-700 font-semibold mt-1 line-clamp-2">
                 {notification.product}

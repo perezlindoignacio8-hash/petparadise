@@ -38,14 +38,14 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       )}
       {isArgentina && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 bg-gradient-to-r from-sky-400 to-yellow-400 text-white text-[11px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20 bg-gradient-to-r from-[#7DB8E8] to-yellow-400 text-white text-[11px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap">
           🇦🇷 Mundial 2026
         </div>
       )}
     <div
       className={`group rounded-2xl overflow-hidden border shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 flex flex-col h-full ${
         isArgentina
-          ? 'bg-gradient-to-br from-sky-50 to-white border-sky-200'
+          ? 'bg-gradient-to-br from-sky-50 to-white border-orange-200'
           : 'bg-white border-gray-100'
       }`}
       id={`product-card-${product.handle}`}
@@ -54,14 +54,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       <Link href={`/producto/${product.handle}`} className="relative aspect-[4/5] overflow-hidden bg-gray-50 block w-full">
         {hasDiscount && (
           <div className={`absolute top-3 left-3 z-10 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg animate-pulse-subtle ${
-            isArgentina ? 'bg-sky-400' : 'bg-slate-800'
+            isArgentina ? 'bg-[#7DB8E8]' : 'bg-[#303854]'
           }`}>
             -{discountPercentage}%
           </div>
         )}
         {/* Free shipping badge */}
         <div className={`absolute top-3 right-3 z-10 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1 ${
-          isArgentina ? 'bg-sky-400' : 'bg-slate-800'
+          isArgentina ? 'bg-[#7DB8E8]' : 'bg-[#303854]'
         }`}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
@@ -95,7 +95,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="p-4 flex flex-col flex-grow justify-between">
         <div>
           <Link href={`/producto/${product.handle}`}>
-            <h3 className="font-bold text-gray-900 text-sm mb-3 line-clamp-2 group-hover:text-slate-800 transition-colors">
+            <h3 className="font-bold text-[#303854] text-sm mb-3 line-clamp-2 group-hover:text-[#303854] transition-colors">
               {product.title}
             </h3>
           </Link>
@@ -108,7 +108,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   {formatPrice(compareAtPrice.amount, compareAtPrice.currencyCode)}
                 </span>
               )}
-              <span className={`text-2xl md:text-3xl font-black flex items-center gap-1 ${hasDiscount ? 'text-slate-800' : 'text-gray-900'}`}>
+              <span className={`text-2xl md:text-3xl font-black flex items-center gap-1 ${hasDiscount ? 'text-[#303854]' : 'text-[#303854]'}`}>
                 <span className="text-lg animate-pulse">🔥</span>
                 {formatPrice(price.amount, price.currencyCode)}
               </span>
@@ -125,8 +125,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           onClick={() => addItem(product)}
           className={`btn-shimmer w-full text-white text-sm font-bold py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2 mt-4 ${
             isArgentina
-              ? 'bg-sky-400 hover:bg-sky-500'
-              : 'bg-blue-600 hover:bg-blue-700'
+              ? 'bg-[#303854] hover:bg-[#1F2540]'
+              : 'bg-[#303854] hover:bg-[#1F2540]'
           }`}
           id={`add-to-cart-${product.handle}`}
         >

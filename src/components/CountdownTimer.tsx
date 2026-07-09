@@ -110,8 +110,8 @@ export default function CountdownTimer() {
       <div className="mt-6 space-y-3">
         {/* Stock Alert */}
         <div className="text-center flex items-center justify-center gap-2">
-          <span className="text-slate-800 text-lg font-black animate-blink-pulse">●</span>
-          <span className="text-gray-900 text-sm font-bold">Quedan pocas unidades - Pedi <span className="text-slate-800">Ahora</span></span>
+          <span className="text-[#303854] text-lg font-black animate-blink-pulse">●</span>
+          <span className="text-[#303854] text-sm font-bold">Quedan pocas unidades - Pedi <span className="text-[#303854]">Ahora</span></span>
         </div>
 
       </div>

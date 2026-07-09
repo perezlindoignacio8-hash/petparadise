@@ -53,7 +53,7 @@ export default function HeroBanner({ onSlideChange }: HeroBannerProps = {}) {
         {/* CTA Button — mobile only */}
         <button
           onClick={() => handleBuyNow('kit-premium-de-paseo-para-perros')}
-          className="btn-shimmer absolute bottom-[11%] right-[5%] z-30 sm:hidden inline-flex items-center gap-3 bg-blue-600 text-white pl-7 pr-6 py-4 rounded-full font-black text-base uppercase tracking-wide shadow-lg active:scale-95 transition-transform hover:bg-blue-700"
+          className="btn-shimmer absolute bottom-[11%] left-[3%] z-30 sm:hidden inline-flex items-center gap-3 bg-[#303854] text-white pl-7 pr-6 py-4 rounded-full font-black text-base uppercase tracking-wide shadow-lg active:scale-95 transition-transform hover:bg-[#5AA0D8]"
           id="hero-cta-mobile"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
@@ -67,7 +67,7 @@ export default function HeroBanner({ onSlideChange }: HeroBannerProps = {}) {
         {/* CTA Button — desktop only */}
         <button
           onClick={() => handleBuyNow('kit-premium-de-paseo-para-perros')}
-          className="btn-shimmer absolute bottom-[6%] left-[9%] z-20 hidden sm:inline-flex items-center gap-3 bg-blue-600 text-white pl-7 pr-6 py-4 rounded-full font-black text-base md:text-lg uppercase tracking-wide hover:bg-blue-700 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 shadow-xl"
+          className="btn-shimmer absolute bottom-[6%] left-[9%] z-20 hidden sm:inline-flex items-center gap-3 bg-[#303854] text-white pl-7 pr-6 py-4 rounded-full font-black text-base md:text-lg uppercase tracking-wide hover:bg-[#5AA0D8] hover:shadow-2xl transition-all duration-300 transform hover:scale-105 shadow-xl"
           id="hero-cta"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">

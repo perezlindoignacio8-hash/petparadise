@@ -102,7 +102,7 @@ export default function VideoReviews({ videos }: VideoReviewsProps) {
 
             {/* Play button overlay */}
             <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-all duration-300">
-              <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 bg-[#303854] rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white fill-current ml-1" viewBox="0 0 24 24">
                   <path d="M5 3l14 9-14 9V3z" />
                 </svg>
@@ -126,7 +126,7 @@ export default function VideoReviews({ videos }: VideoReviewsProps) {
             {/* Close button */}
             <button
               onClick={() => setSelectedVideo(null)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-800 hover:bg-slate-900 text-white rounded-full flex items-center justify-center transition-colors"
+              className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#303854] hover:bg-[#303854] text-white rounded-full flex items-center justify-center transition-colors"
               aria-label="Cerrar"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">

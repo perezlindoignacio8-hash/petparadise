@@ -73,7 +73,7 @@ function ReviewCard({ review, className = '' }: { review: Review; className?: st
         )}
 
         {/* Quote bubble (bottom-right) */}
-        <div className="absolute bottom-3 right-3 z-10 w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center shadow-lg">
+        <div className="absolute bottom-3 right-3 z-10 w-12 h-12 bg-[#303854] rounded-full flex items-center justify-center shadow-lg">
           <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
             <path d="M9.983 3v7.391c0 5.704-3.731 9.57-8.983 10.609l-.995-2.151c2.432-.917 3.995-3.638 3.995-5.849h-4v-10h9.983zm14.017 0v7.391c0 5.704-3.748 9.571-9 10.609l-.996-2.151c2.433-.917 3.996-3.638 3.996-5.849h-3.983v-10h9.983z" />
           </svg>
@@ -90,7 +90,7 @@ function ReviewCard({ review, className = '' }: { review: Review; className?: st
           ))}
         </div>
 
-        <h3 className="font-black text-gray-900 text-lg md:text-xl mb-3">{review.headline}</h3>
+        <h3 className="font-black text-[#303854] text-lg md:text-xl mb-3">{review.headline}</h3>
 
         <p className="text-gray-700 text-sm leading-relaxed flex-grow">{review.text}</p>
 
@@ -117,8 +117,8 @@ export default function ProductReviews({ reviews }: { reviews: Review[] }) {
     <section className="py-12 md:py-16 bg-white overflow-hidden" id="product-reviews">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-black text-gray-900 inline-flex items-center gap-2">
-            Nuestros clientes <span className="text-slate-800">❤</span>
+          <h2 className="text-2xl md:text-3xl font-black text-[#303854] inline-flex items-center gap-2">
+            Nuestros clientes <span className="text-[#303854]">❤</span>
           </h2>
         </div>
 

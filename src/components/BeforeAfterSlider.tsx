@@ -63,7 +63,7 @@ export default function BeforeAfterSlider({
       >
         {/* Handle */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-2xl flex items-center justify-center ring-4 ring-white/30">
-          <svg className="w-6 h-6 text-slate-800" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" aria-hidden>
+          <svg className="w-6 h-6 text-[#303854]" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" aria-hidden>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75 4.5 12l3.75 5.25M15.75 6.75 19.5 12l-3.75 5.25" />
           </svg>
         </div>
@@ -73,7 +73,7 @@ export default function BeforeAfterSlider({
       <div className="absolute top-4 left-4 bg-black/70 text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full backdrop-blur-sm">
         {beforeLabel}
       </div>
-      <div className="absolute top-4 right-4 bg-slate-800 text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
+      <div className="absolute top-4 right-4 bg-[#303854] text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg">
         {afterLabel}
       </div>
     </div>

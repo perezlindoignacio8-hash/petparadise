@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${inter.variable} ${poppins.variable}`} suppressHydrationWarning>
-      <body className="bg-white text-gray-900 antialiased font-[family-name:var(--font-inter)]" suppressHydrationWarning>
+      <body className="bg-white text-[#303854] antialiased font-[family-name:var(--font-inter)]" suppressHydrationWarning>
         <CartProvider>
           <MetaPixel />
           <TabTitleManager />

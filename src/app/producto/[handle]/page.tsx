@@ -208,7 +208,7 @@ export default function ProductoPage() {
         <span className="text-6xl block mb-4">😿</span>
         <h1 className="text-2xl font-bold mb-2">Producto no encontrado</h1>
         <p className="text-gray-500 mb-6">No pudimos encontrar el producto que buscás.</p>
-        <Link href="/" className="bg-blue-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-slate-900 transition-colors">
+        <Link href="/" className="bg-[#303854] text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-[#303854] transition-colors">
           Volver al inicio
         </Link>
       </div>
@@ -228,7 +228,7 @@ export default function ProductoPage() {
       <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 ${handle === 'kit-argentina-mundial-2026' ? 'argentina-theme' : ''}`}>
         {/* Breadcrumb */}
         <nav className="mb-8 text-sm text-gray-400">
-          <Link href="/" className="hover:text-slate-800 transition-colors">Inicio</Link>
+          <Link href="/" className="hover:text-[#303854] transition-colors">Inicio</Link>
           <span className="mx-2">/</span>
           <span className="text-gray-700">{product.title}</span>
         </nav>
@@ -246,13 +246,13 @@ export default function ProductoPage() {
               }}
             >
               {hasDiscount && (
-                <div className={`absolute top-4 left-4 z-10 text-white text-sm font-bold px-3 py-1.5 rounded-full ${handle === 'kit-argentina-mundial-2026' ? 'bg-sky-400' : 'bg-slate-800'
+                <div className={`absolute top-4 left-4 z-10 text-white text-sm font-bold px-3 py-1.5 rounded-full ${handle === 'kit-argentina-mundial-2026' ? 'bg-[#7DB8E8]' : 'bg-[#303854]'
                   }`}>
                   OFERTA
                 </div>
               )}
               {/* Free shipping badge */}
-              <div className={`absolute top-4 right-4 z-10 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 ${handle === 'kit-argentina-mundial-2026' ? 'bg-sky-400' : 'bg-slate-800'
+              <div className={`absolute top-4 right-4 z-10 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 ${handle === 'kit-argentina-mundial-2026' ? 'bg-[#7DB8E8]' : 'bg-[#303854]'
                 }`}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
@@ -277,7 +277,7 @@ export default function ProductoPage() {
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {images.map((img, i) => (
                   <button key={i} onClick={() => setSelectedImage(i)}
-                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 shrink-0 transition-all ${i === selectedImage ? 'border-slate-800 shadow-md' : 'border-gray-200 hover:border-gray-400'}`}>
+                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 shrink-0 transition-all ${i === selectedImage ? 'border-[#303854] shadow-md' : 'border-gray-200 hover:border-gray-400'}`}>
                     <Image src={img.url} alt={img.altText || ''} width={80} height={80} className="object-cover w-full h-full" />
                   </button>
                 ))}
@@ -303,8 +303,8 @@ export default function ProductoPage() {
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <p className="text-sm text-slate-800 font-medium mb-1">{product.productType || 'Pet Paradise'}</p>
-              <h1 className="text-2xl md:text-3xl font-black text-gray-900">{product.title}</h1>
+              <p className="text-sm text-[#303854] font-medium mb-1">{product.productType || 'Pet Paradise'}</p>
+              <h1 className="text-2xl md:text-3xl font-black text-[#303854]">{product.title}</h1>
               {handle === 'kit-premium-de-paseo-para-perros' && (
                 <div className="mt-3 inline-flex items-center gap-2 bg-green-50 border border-green-100 px-3 py-1.5 rounded-full">
                   <div className="relative inline-flex">
@@ -334,14 +334,14 @@ export default function ProductoPage() {
                 {hasDiscount && (
                   <span className="text-xl md:text-2xl text-gray-400 line-through">{formatPrice(compareAt.amount, compareAt.currencyCode)}</span>
                 )}
-                <span className={`text-5xl md:text-6xl font-black flex items-center gap-2 ${hasDiscount ? 'text-slate-800' : 'text-gray-900'}`}>
+                <span className={`text-5xl md:text-6xl font-black flex items-center gap-2 ${hasDiscount ? 'text-[#303854]' : 'text-[#303854]'}`}>
                   <span className="animate-pulse">🔥</span>
                   {formatPrice(price.amount, price.currencyCode)}
                   <span className="animate-pulse">🔥</span>
                 </span>
                 {hasDiscount && (
                   <span className={`text-white text-base md:text-lg font-black px-4 py-1.5 rounded-full animate-pulse shadow-lg ${handle === 'kit-argentina-mundial-2026'
-                      ? 'bg-sky-400'
+                      ? 'bg-[#7DB8E8]'
                       : 'bg-red-600'
                     }`}>
                     -{Math.round((1 - parseFloat(price.amount) / parseFloat(compareAt.amount)) * 100)}% OFF
@@ -358,25 +358,13 @@ export default function ProductoPage() {
               <div className="space-y-3">
                 {handle === 'kit-premium-de-paseo-para-perros' && (
                   <>
-                    {/* Gift highlight */}
-                    <div className="relative bg-gradient-to-r from-slate-800 to-slate-700 text-white rounded-2xl p-4 shadow-lg overflow-hidden">
-                      <div className="absolute -right-4 -top-4 text-7xl opacity-10 rotate-12 select-none">🎁</div>
-                      <div className="relative flex items-start gap-3">
-                        <span className="text-3xl shrink-0">🎁</span>
-                        <div>
-                          <p className="font-black uppercase text-xs tracking-widest text-white/80">Hoy te llevás de regalo</p>
-                          <p className="font-bold text-sm mt-0.5">Chaleco de paseo + Envío gratis</p>
-                        </div>
-                      </div>
-                    </div>
-
                     <CountdownTimer />
                   </>
                 )}
                 {handle === 'kit-argentina-mundial-2026' && (
                   <>
                     {/* Gift highlight */}
-                    <div className="relative bg-gradient-to-r from-sky-400 to-sky-300 text-white rounded-2xl p-4 shadow-lg overflow-hidden">
+                    <div className="relative bg-gradient-to-r from-[#7DB8E8] to-[#B0D4EE] text-white rounded-2xl p-4 shadow-lg overflow-hidden">
                       <div className="absolute -right-4 -top-4 text-7xl opacity-10 rotate-12 select-none">🎁</div>
                       <div className="relative flex items-start gap-3">
                         <span className="text-3xl shrink-0">🎁</span>
@@ -406,8 +394,8 @@ export default function ProductoPage() {
                             key={size}
                             onClick={() => setSelectedSize(size)}
                             className={`py-3 px-2 rounded-xl font-black text-sm transition-all duration-300 border-2 ${selectedSize === size
-                                ? 'bg-sky-400 text-white border-sky-400 shadow-lg'
-                                : 'bg-white text-sky-400 border-sky-300 hover:border-sky-400'
+                                ? 'bg-[#303854] text-white border-[#7DB8E8] shadow-lg'
+                                : 'bg-white text-[#7DB8E8] border-[#B0D4EE] hover:border-[#7DB8E8]'
                               }`}
                           >
                             {size}
@@ -422,19 +410,19 @@ export default function ProductoPage() {
                 <div className="flex items-center gap-4">
                   <span className="text-sm font-medium text-gray-700">Cantidad:</span>
                   <div className={`flex items-center rounded-xl overflow-hidden ${handle === 'kit-argentina-mundial-2026'
-                      ? 'border-2 border-sky-300'
+                      ? 'border-2 border-[#B0D4EE]'
                       : 'border border-gray-200'
                     }`}>
                     <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className={`w-10 h-10 flex items-center justify-center transition-colors ${handle === 'kit-argentina-mundial-2026'
-                        ? 'text-sky-400 hover:bg-sky-50'
+                        ? 'text-[#7DB8E8] hover:bg-orange-50'
                         : 'text-gray-600 hover:bg-gray-100'
                       }`}>−</button>
                     <span className={`w-12 h-10 flex items-center justify-center font-bold text-sm ${handle === 'kit-argentina-mundial-2026'
-                        ? 'border-x-2 border-sky-300'
+                        ? 'border-x-2 border-[#B0D4EE]'
                         : 'border-x border-gray-200'
                       }`}>{quantity}</span>
                     <button onClick={() => setQuantity(quantity + 1)} className={`w-10 h-10 flex items-center justify-center transition-colors ${handle === 'kit-argentina-mundial-2026'
-                        ? 'text-sky-400 hover:bg-sky-50'
+                        ? 'text-[#7DB8E8] hover:bg-orange-50'
                         : 'text-gray-600 hover:bg-gray-100'
                       }`}>+</button>
                   </div>
@@ -443,8 +431,8 @@ export default function ProductoPage() {
                 {/* Add to Cart */}
                 <button onClick={() => addItem(product, quantity, handle === 'kit-argentina-mundial-2026' ? selectedSize || undefined : undefined)}
                   className={`btn-shimmer w-full text-white font-black py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 text-lg md:text-xl mt-8 mb-4 ${handle === 'kit-argentina-mundial-2026'
-                      ? 'bg-sky-400 hover:bg-sky-500'
-                      : 'bg-blue-600 hover:bg-blue-700'
+                      ? 'bg-[#303854] hover:bg-[#1F2540]'
+                      : 'bg-[#303854] hover:bg-[#1F2540]'
                     }`}
                   id="add-to-cart-detail">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
@@ -456,10 +444,10 @@ export default function ProductoPage() {
                 {/* Shopify description */}
                 {(product.descriptionHtml || product.description) && (
                   <div className={`rounded-3xl p-8 border ${handle === 'kit-argentina-mundial-2026'
-                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-sky-200'
+                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-orange-200'
                       : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
                     }`}>
-                    <h3 className="text-2xl font-black text-gray-900 mb-6 text-center">Descripción</h3>
+                    <h3 className="text-2xl font-black text-[#303854] mb-6 text-center">Descripción</h3>
                     <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
                   </div>
                 )}
@@ -467,10 +455,10 @@ export default function ProductoPage() {
                 {/* What's Included Section - solo para Argentina y Kit Higiene */}
                 {handle !== 'kit-premium-de-paseo-para-perros' && (
                   <div className={`rounded-3xl p-8 border ${handle === 'kit-argentina-mundial-2026'
-                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-sky-200'
+                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-orange-200'
                       : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
                     }`}>
-                    <h3 className="text-2xl font-black text-gray-900 mb-8 text-center">Qué incluye tu compra</h3>
+                    <h3 className="text-2xl font-black text-[#303854] mb-8 text-center">Qué incluye tu compra</h3>
 
                     <div className="flex flex-row gap-4 md:gap-8 justify-center items-stretch">
                       {PRODUCT_CONFIGS[handle].descriptionItems.map((item: any) => (
@@ -478,7 +466,7 @@ export default function ProductoPage() {
                           <div className={`w-20 h-20 md:w-24 md:h-24 ${item.bgColor} rounded-2xl flex items-center justify-center text-4xl md:text-5xl mb-3 md:mb-4 shadow-md`}>
                             {item.icon}
                           </div>
-                          <h4 className="font-black text-gray-900 text-xs md:text-sm mb-1 md:mb-2">{item.title}</h4>
+                          <h4 className="font-black text-[#303854] text-xs md:text-sm mb-1 md:mb-2">{item.title}</h4>
                           <p className="text-[10px] md:text-xs text-gray-600 leading-relaxed">{item.description}</p>
                         </div>
                       ))}
@@ -486,8 +474,8 @@ export default function ProductoPage() {
 
                     {/* Highlight */}
                     <div className="mt-8 pt-6 border-t border-gray-200">
-                      <p className="text-center text-sm font-bold text-gray-900">
-                        ✨ <span className="text-slate-800">{PRODUCT_CONFIGS[handle].descriptionItems.length} productos en 1 kit</span> - Todo lo que necesitas
+                      <p className="text-center text-sm font-bold text-[#303854]">
+                        ✨ <span className="text-[#303854]">{PRODUCT_CONFIGS[handle].descriptionItems.length} productos en 1 kit</span> - Todo lo que necesitas
                       </p>
                     </div>
                   </div>
@@ -533,7 +521,7 @@ export default function ProductoPage() {
       )}
 
       {handle === 'kit-argentina-mundial-2026' && (
-        <section className="relative py-20 md:py-28 bg-sky-400">
+        <section className="relative py-20 md:py-28 bg-[#7DB8E8]">
           {/* Top wave */}
           <svg
             className="absolute top-0 left-0 w-full h-12 md:h-20 -translate-y-[1px]"
@@ -562,10 +550,10 @@ export default function ProductoPage() {
             <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 items-center mb-16">
               {/* Left: white card with bullets */}
               <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl order-2 md:order-1">
-                <div className="inline-block px-3 py-1 rounded-full mb-4 bg-sky-100">
-                  <span className="text-xs font-black uppercase tracking-widest text-sky-800">La Solución</span>
+                <div className="inline-block px-3 py-1 rounded-full mb-4 bg-orange-100">
+                  <span className="text-xs font-black uppercase tracking-widest text-[#303854]">La Solución</span>
                 </div>
-                <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-6 leading-tight">
+                <h3 className="text-xl md:text-2xl font-black text-[#303854] mb-6 leading-tight">
                   Tu perro merece representar a Argentina.
                 </h3>
                 <ul className="space-y-4">
@@ -576,7 +564,7 @@ export default function ProductoPage() {
                     'Celebrá el fútbol y la amistad en una sola prenda.',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-3 text-gray-700 text-sm md:text-base leading-relaxed">
-                      <svg className="w-6 h-6 shrink-0 mt-0.5 text-sky-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
+                      <svg className="w-6 h-6 shrink-0 mt-0.5 text-[#7DB8E8]" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
                         <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
                       </svg>
                       <span>{item}</span>
@@ -625,7 +613,7 @@ export default function ProductoPage() {
             <div className="text-center">
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="inline-block font-black py-4 px-8 md:px-12 rounded-2xl text-lg md:text-xl transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-xl bg-white text-sky-400 hover:bg-sky-50"
+                className="inline-block font-black py-4 px-8 md:px-12 rounded-2xl text-lg md:text-xl transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-xl bg-white text-[#7DB8E8] hover:bg-orange-50"
               >
                 Alentar en familia
               </button>

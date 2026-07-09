@@ -37,7 +37,7 @@ export default function ArgentinaShowcase() {
         {features.map((f, i) => (
           <div key={i} className="text-center px-0.5 md:px-1 flex flex-col items-center">
             <div className="text-2xl md:text-4xl mb-1.5 md:mb-3">{f.icon}</div>
-            <h3 className="font-black text-gray-900 text-[10px] md:text-sm uppercase tracking-tight leading-tight">{f.title}</h3>
+            <h3 className="font-black text-[#303854] text-[10px] md:text-sm uppercase tracking-tight leading-tight">{f.title}</h3>
             <p className="text-gray-500 text-[9px] md:text-xs mt-1 md:mt-2 leading-tight md:leading-relaxed">{f.desc}</p>
           </div>
         ))}
@@ -45,10 +45,10 @@ export default function ArgentinaShowcase() {
 
       {/* Title */}
       <div className="text-center mt-14 md:mt-20 pointer-events-auto">
-        <p className="text-gray-900 font-black text-2xl md:text-3xl uppercase tracking-tight">IDEAL PARA</p>
+        <p className="text-[#303854] font-black text-2xl md:text-3xl uppercase tracking-tight">IDEAL PARA</p>
         <div className="inline-flex items-center gap-4 mt-2">
           <span className="text-gray-300 text-3xl select-none" aria-hidden>///</span>
-          <h2 className="text-sky-400 font-black text-4xl md:text-5xl uppercase tracking-tight">CADA MOMENTO MUNDIAL</h2>
+          <h2 className="text-[#7DB8E8] font-black text-4xl md:text-5xl uppercase tracking-tight">CADA MOMENTO MUNDIAL</h2>
           <span className="text-gray-300 text-3xl select-none" aria-hidden>\\\</span>
         </div>
         <p className="text-gray-500 mt-4 text-base md:text-lg">Tu mascota celebrando Argentina en cada partido, junto a vos.</p>
@@ -67,7 +67,7 @@ export default function ArgentinaShowcase() {
                 sizes="(max-width: 640px) 33vw, 33vw"
               />
             </div>
-            <div className="bg-sky-400 text-white text-center py-1.5 md:py-3 font-black uppercase tracking-wider md:tracking-widest text-[10px] md:text-sm">
+            <div className="bg-[#303854] text-white text-center py-1.5 md:py-3 font-black uppercase tracking-wider md:tracking-widest text-[10px] md:text-sm">
               {a.label}
             </div>
           </div>
