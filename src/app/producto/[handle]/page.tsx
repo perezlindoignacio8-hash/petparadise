@@ -303,55 +303,45 @@ export default function ProductoPage() {
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <p className="text-sm text-[#303854] font-medium mb-1">{product.productType || 'Pet Paradise'}</p>
-              <h1 className="text-2xl md:text-3xl font-black text-[#303854]">{product.title}</h1>
+              <h1 className="text-3xl md:text-4xl font-black text-[#303854] mb-3">{product.title}</h1>
               {handle === 'kit-premium-de-paseo-para-perros' && (
-                <div className="mt-3 inline-flex items-center gap-2 bg-green-50 border border-green-100 px-3 py-1.5 rounded-full">
-                  <div className="relative inline-flex">
-                    <div className="flex">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <svg key={`bg-${i}`} className="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                    <div className="absolute inset-0 flex overflow-hidden" style={{ width: '90%' }}>
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <svg key={`fg-${i}`} className="w-4 h-4 text-yellow-400 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <svg key={i} className={`w-5 h-5 ${i <= 4 ? 'text-yellow-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
                   </div>
-                  <span className="text-sm font-bold text-green-800">4.5</span>
-                  <span className="text-xs text-green-700">(238 reseñas)</span>
+                  <span className="text-lg font-bold text-[#303854]">4.5</span>
+                  <span className="text-sm text-gray-600">( 652 reseñas )</span>
                 </div>
               )}
             </div>
 
-            <div>
-              <div className="flex items-center gap-3 flex-wrap">
-                {hasDiscount && (
-                  <span className="text-xl md:text-2xl text-gray-400 line-through">{formatPrice(compareAt.amount, compareAt.currencyCode)}</span>
-                )}
-                <span className={`text-5xl md:text-6xl font-black flex items-center gap-2 ${hasDiscount ? 'text-[#303854]' : 'text-[#303854]'}`}>
-                  <span className="animate-pulse">🔥</span>
-                  {formatPrice(price.amount, price.currencyCode)}
-                  <span className="animate-pulse">🔥</span>
+            <div className="space-y-3">
+              {hasDiscount && (
+                <span className={`inline-block text-white text-xs font-black px-3 py-1.5 rounded-full ${handle === 'kit-argentina-mundial-2026'
+                    ? 'bg-[#7DB8E8]'
+                    : 'bg-red-600'
+                  }`}>
+                  -{Math.round((1 - parseFloat(price.amount) / parseFloat(compareAt.amount)) * 100)}% OFF
                 </span>
+              )}
+              <div>
                 {hasDiscount && (
-                  <span className={`text-white text-base md:text-lg font-black px-4 py-1.5 rounded-full animate-pulse shadow-lg ${handle === 'kit-argentina-mundial-2026'
-                      ? 'bg-[#7DB8E8]'
-                      : 'bg-red-600'
-                    }`}>
-                    -{Math.round((1 - parseFloat(price.amount) / parseFloat(compareAt.amount)) * 100)}% OFF
-                  </span>
+                  <p className="text-lg text-gray-400 line-through mb-1">{formatPrice(compareAt.amount, compareAt.currencyCode)}</p>
                 )}
+                <span className="text-5xl md:text-6xl font-black text-[#303854]">
+                  {formatPrice(price.amount, price.currencyCode)}
+                </span>
               </div>
-              <p className="text-sm md:text-base text-green-600 font-bold mt-2 flex items-center gap-1">
-                <span>💳</span>
-                3 cuotas sin interés x {formatPrice((parseFloat(price.amount) / 3).toFixed(2), price.currencyCode)}
-              </p>
+              <div className="bg-sky-100 border border-[#7DB8E8] rounded-lg px-4 py-3 mt-3">
+                <p className="text-sm font-bold text-[#303854] flex items-center gap-2">
+                  <span className="text-lg">💳</span>
+                  3 cuotas sin interés x <span className="text-[#7DB8E8] font-black">{formatPrice((parseFloat(price.amount) / 3).toFixed(2), price.currencyCode)}</span>
+                </p>
+              </div>
             </div>
 
             {PRODUCT_CONFIGS[handle] ? (
@@ -430,7 +420,7 @@ export default function ProductoPage() {
 
                 {/* Add to Cart */}
                 <button onClick={() => addItem(product, quantity, handle === 'kit-argentina-mundial-2026' ? selectedSize || undefined : undefined)}
-                  className={`btn-shimmer w-full text-white font-black py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 text-lg md:text-xl mt-8 mb-4 ${handle === 'kit-argentina-mundial-2026'
+                  className={`w-full text-white font-black py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 text-lg md:text-xl mt-8 mb-4 ${handle === 'kit-argentina-mundial-2026'
                       ? 'bg-[#303854] hover:bg-[#1F2540]'
                       : 'bg-[#303854] hover:bg-[#1F2540]'
                     }`}
@@ -443,12 +433,9 @@ export default function ProductoPage() {
 
                 {/* Shopify description */}
                 {(product.descriptionHtml || product.description) && (
-                  <div className={`rounded-3xl p-8 border ${handle === 'kit-argentina-mundial-2026'
-                      ? 'bg-gradient-to-br from-sky-50 to-sky-50/40 border-orange-200'
-                      : 'bg-gradient-to-br from-gray-50 to-white border-gray-100'
-                    }`}>
-                    <h3 className="text-2xl font-black text-[#303854] mb-6 text-center">Descripción</h3>
-                    <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
+                  <div className="bg-sky-50 rounded-2xl p-8 border border-sky-100">
+                    <h3 className="text-xl font-black text-[#303854] mb-6">Descripción</h3>
+                    <div className="prose prose-sm text-gray-700 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
                   </div>
                 )}
 
@@ -482,12 +469,12 @@ export default function ProductoPage() {
                 )}
 
                 {/* Features pills */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 pt-6">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-8">
                   {PRODUCT_CONFIGS[handle].features.map((item: any) => (
-                    <div key={item.label} className="flex flex-col items-center text-center bg-gradient-to-b from-green-50 to-green-50/40 border border-green-200 rounded-xl px-3 md:px-4 py-3 md:py-4 hover:shadow-md transition-shadow duration-300">
-                      <span className="text-2xl md:text-3xl mb-2">{item.icon}</span>
-                      <h4 className="font-black text-green-900 text-xs md:text-sm mb-1">{item.label}</h4>
-                      <p className="text-[10px] md:text-xs text-green-700">{item.text}</p>
+                    <div key={item.label} className="flex flex-col items-center text-center p-5 bg-sky-100 border border-[#7DB8E8] rounded-xl hover:bg-sky-200 transition-colors">
+                      <span className="text-4xl md:text-5xl mb-3">{item.icon}</span>
+                      <h4 className="font-bold text-[#303854] text-xs md:text-sm mb-1">{item.label}</h4>
+                      <p className="text-[10px] md:text-xs text-[#303854]">{item.text}</p>
                     </div>
                   ))}
                 </div>

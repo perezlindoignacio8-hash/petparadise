@@ -124,6 +124,15 @@ h1, h2, h3, h4, h5, h6 {
   left: -30%;
 }
 
+@keyframes countdown-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-countdown-shimmer {
+  animation: countdown-shimmer 2s infinite;
+}
+
 .btn-shimmer {
   overflow: hidden;
   isolation: isolate;
