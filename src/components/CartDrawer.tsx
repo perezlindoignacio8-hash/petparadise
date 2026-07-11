@@ -132,83 +132,40 @@ export default function CartDrawer() {
 
             let message = '';
             if (hasShipping) {
-              message = '¡20% OFF + 3 Cuotas + Envío gratis desbloqueados!';
+              message = '¡Beneficios desbloqueados!';
             } else if (hasInstallments) {
-              message = `¡3 Cuotas desbloqueadas! Te faltan $${(shippingThreshold - subtotal).toLocaleString('es-AR')} para Envío Gratis`;
+              message = `¡Beneficios desbloqueados! Te faltan $${(shippingThreshold - subtotal).toLocaleString('es-AR')} para Envío Gratis`;
             } else {
-              message = `20% OFF desbloqueado - Te faltan $${(installmentsThreshold - subtotal).toLocaleString('es-AR')} para 3 Cuotas`;
+              message = `Beneficios desbloqueados - Te faltan $${(installmentsThreshold - subtotal).toLocaleString('es-AR')} para 3 Cuotas`;
             }
 
             return (
-              <div className="px-6 pt-4 pb-2 border-b border-gray-100">
-                <div className="bg-sky-50 rounded-2xl p-4">
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-[#7DB8E8]">
-                      <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
-                    </svg>
-                    <p className="text-sm font-bold text-[#303854] text-center">
-                      {message}
-                    </p>
-                  </div>
+              <div className="px-6 pt-4 pb-4 border-b border-gray-100">
+                <p className="text-sm font-bold text-[#303854] mb-4 text-center">
+                  {message}
+                </p>
 
-                  {/* Progress bar */}
-                  <div className="relative h-3 mx-4 my-6 z-10">
-                    {/* Background track */}
-                    <div className="absolute inset-0 bg-sky-100 rounded-full overflow-hidden">
-                      {/* Filled progress */}
-                      <div
-                        className="relative h-full bg-gradient-to-r from-[#7DB8E8] to-sky-500 rounded-full transition-all duration-500 overflow-hidden"
-                        style={{ width: `${progress}%` }}
-                      >
-                        {/* Moving light effect */}
-                        <div className="absolute top-0 h-full w-16 bg-gradient-to-r from-transparent via-white/80 to-transparent animate-progress-shimmer"></div>
-                      </div>
-                    </div>
-
-                    {/* 20% OFF milestone (siempre desbloqueado) */}
-                    <div className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-1/2 z-10">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center shadow-md bg-[#5AA0D8] text-white">
-                        <span className="text-[9px] font-black">20%</span>
-                      </div>
-                    </div>
-
-                    {/* 3 Cuotas milestone (intermedio) */}
-                    <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-colors ${
-                        hasInstallments ? 'bg-[#5AA0D8] text-white' : 'bg-white text-[#7DB8E8] border-2 border-[#B0D4EE]'
-                      }`}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Shipping milestone */}
-                    <div className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-1/2 z-10">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-colors ${
-                        hasShipping ? 'bg-[#5AA0D8] text-white' : 'bg-white text-[#7DB8E8] border-2 border-[#B0D4EE]'
-                      }`}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                          <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25ZM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 1 1 6 0h3a.75.75 0 0 0 .75-.75V15Z" />
-                          <path d="M8.25 19.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0ZM15.75 6.75a.75.75 0 0 0-.75.75v11.25c0 .087.015.17.042.248a3 3 0 0 1 5.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 0 0-3.732-10.104 1.837 1.837 0 0 0-1.47-.725H15.75Z" />
-                          <path d="M19.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
-                        </svg>
-                      </div>
+                {/* Progress bar with labels */}
+                <div className="space-y-3">
+                  <div className="h-3 bg-sky-100 rounded-full overflow-hidden relative">
+                    <div
+                      className="h-full bg-gradient-to-r from-[#7DB8E8] to-[#5AA0D8] transition-all duration-500 rounded-full shadow-md relative overflow-hidden"
+                      style={{ width: `${progress}%` }}
+                    >
+                      <div className="absolute top-0 h-full w-16 bg-gradient-to-r from-transparent via-white/80 to-transparent animate-progress-shimmer"></div>
                     </div>
                   </div>
 
-                  {/* Labels */}
-                  <div className="relative flex justify-between items-start mt-6 text-[10px] text-slate-600 font-semibold px-1">
-                    <div className="text-left flex-1">
-                      <p>20% OFF</p>
+                  {/* Labels below bar */}
+                  <div className="flex justify-between text-xs font-semibold text-gray-600 px-1">
+                    <div className="text-left">
+                      <span>💰 20% OFF</span>
                     </div>
-                    <div className="text-center flex-1">
-                      <p>3 Cuotas</p>
-                      <p className="text-slate-500">${installmentsThreshold.toLocaleString('es-AR')}</p>
+                    <div className="text-center">
+                      <span>💳 3 cuotas sin interés</span>
                     </div>
-                    <div className="text-right flex-1">
-                      <p>Envío gratis</p>
-                      <p className="text-slate-500">${shippingThreshold.toLocaleString('es-AR')}</p>
+                    <div className="text-right">
+                      <span>🚚 Envío gratis</span>
                     </div>
                   </div>
                 </div>

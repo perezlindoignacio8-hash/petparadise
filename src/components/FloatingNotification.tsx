@@ -29,7 +29,7 @@ const generateRandomName = () => {
 };
 
 const generateRandomMinutes = () => {
-  return Math.floor(Math.random() * 15) + 1;
+  return Math.floor(Math.random() * 30) + 2;
 };
 
 export default function FloatingNotification() {
@@ -70,16 +70,16 @@ export default function FloatingNotification() {
       // Animar entrada
       setTimeout(() => setIsVisible(true), 50);
 
-      // Iniciar animación de salida después de 5 segundos visible
+      // Iniciar animación de salida después de 6 segundos visible
       hideTimeout = setTimeout(() => {
         setIsVisible(false);
         // Remover notificación después de la animación de salida
         removeTimeout = setTimeout(() => {
           setNotification(null);
-          // Mostrar la siguiente notificación después de 2 minutos
-          nextTimeout = setTimeout(showNotification, 120000);
+          // Mostrar la siguiente notificación después de 5 minutos
+          nextTimeout = setTimeout(showNotification, 300000);
         }, 1200);
-      }, 5000);
+      }, 6000);
     };
 
     // Mostrar primera notificación a los 5 segundos
@@ -114,44 +114,27 @@ export default function FloatingNotification() {
           transition: 'opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
-        <div className="relative bg-white rounded-xl md:rounded-2xl p-2.5 md:p-4 shadow-2xl border-2 border-slate-100 max-w-[240px] md:max-w-xs overflow-hidden">
-          {/* Gradient accent bar */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-slate-700 via-slate-800 to-slate-700"></div>
-
-          {/* Live indicator */}
-          <div className="absolute top-2 right-2 flex items-center gap-1">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            <span className="text-[8px] md:text-[9px] font-bold text-green-600 uppercase tracking-wider">En vivo</span>
-          </div>
-
-          <div className="flex items-start gap-2 md:gap-3 mt-1">
-            <div className="shrink-0 w-9 h-9 md:w-12 md:h-12 relative bg-gradient-to-br from-slate-50 to-slate-100 rounded-full p-1.5 ring-2 ring-slate-200">
-              <div className="relative w-full h-full">
-                <Image
-                  src="/logo.png"
-                  alt="Pet Paradise"
-                  fill
-                  loading="lazy"
-                  quality={65}
-                  sizes="48px"
-                  className="object-contain"
-                />
-              </div>
+        <div className="relative bg-white rounded-lg md:rounded-xl p-3 md:p-4 shadow-lg border border-gray-200 max-w-xs overflow-hidden">
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 w-10 h-10 relative bg-gray-100 rounded-full flex items-center justify-center">
+              <Image
+                src="/logo.png"
+                alt="Pet Paradise"
+                width={32}
+                height={32}
+                loading="lazy"
+                quality={65}
+                className="object-contain"
+              />
             </div>
-            <div className="flex-1 min-w-0 pr-4">
-              <p className="font-black text-[#303854] text-xs md:text-sm leading-tight">
-                ✅ <span className="text-[#303854]">{notification.name}</span> acaba de comprar
+            <div className="flex-1 min-w-0">
+              <p className="text-xs md:text-sm text-gray-800 leading-snug">
+                <span className="font-semibold text-[#303854]">{notification.name}</span> compró
               </p>
-              <p className="text-[11px] md:text-xs text-gray-700 font-semibold mt-1 line-clamp-2">
+              <p className="text-xs text-gray-600 mt-0.5 line-clamp-2">
                 {notification.product}
               </p>
-              <p className="text-[9px] md:text-[10px] text-gray-400 mt-1.5 flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-2.5 h-2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
+              <p className="text-[11px] text-gray-400 mt-1">
                 Hace {notification.minutesAgo} {notification.minutesAgo === 1 ? 'minuto' : 'minutos'}
               </p>
             </div>

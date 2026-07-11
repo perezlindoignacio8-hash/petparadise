@@ -8,11 +8,43 @@ import { getProductByHandle, formatPrice } from '@/lib/shopify';
 import { sanitizeHtml } from '@/lib/sanitize';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/types/shopify';
-import CountdownTimer from '@/components/CountdownTimer';
 import ProductReviews, { type Review } from '@/components/ProductReviews';
 import StickyProductBar from '@/components/StickyProductBar';
 import VideoReviews from '@/components/VideoReviews';
 import PainPointSection from '@/components/PainPointSection';
+
+function extractVideoThumbnail(videoUrl: string, callback: (thumbnail: string) => void) {
+  const video = document.createElement('video');
+  video.src = videoUrl;
+  video.crossOrigin = 'anonymous';
+  video.muted = true;
+  video.preload = 'metadata';
+
+  let seekAttempts = 0;
+
+  const handleCanPlay = () => {
+    if (seekAttempts === 0) {
+      seekAttempts++;
+      video.currentTime = 3;
+    }
+  };
+
+  const handleSeeked = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth || 320;
+    canvas.height = video.videoHeight || 240;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(video, 0, 0);
+      callback(canvas.toDataURL('image/jpeg', 0.9));
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('seeked', handleSeeked);
+    }
+  };
+
+  video.addEventListener('canplay', handleCanPlay);
+  video.addEventListener('seeked', handleSeeked);
+}
 
 const productReviews: Review[] = [
   {
@@ -153,6 +185,7 @@ export default function ProductoPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [videoThumbnail, setVideoThumbnail] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const { addItem } = useCart();
@@ -185,6 +218,12 @@ export default function ProductoPage() {
     addItem(product, 1);
     router.replace(`/producto/${handle}`, { scroll: false });
   }, [shouldAddToCart, product, addItem, router, handle]);
+
+  useEffect(() => {
+    if (handle === 'kit-premium-de-paseo-para-perros') {
+      extractVideoThumbnail('/videoreview1.mp4', setVideoThumbnail);
+    }
+  }, [handle]);
 
   if (loading) {
     return (
@@ -281,42 +320,91 @@ export default function ProductoPage() {
                     <Image src={img.url} alt={img.altText || ''} width={80} height={80} className="object-cover w-full h-full" />
                   </button>
                 ))}
+                {handle === 'kit-premium-de-paseo-para-perros' && (
+                  <button onClick={() => {
+                      const modal = document.getElementById('video-modal');
+                      const video = document.getElementById('modal-video') as HTMLVideoElement | null;
+                      if (modal) modal.classList.remove('hidden');
+                      if (video) { video.currentTime = 0; video.play().catch(() => {}); }
+                    }}
+                    className="w-20 h-20 rounded-lg overflow-hidden border-2 shrink-0 flex items-center justify-center cursor-pointer border-gray-200 hover:border-gray-400 transition-all group relative">
+                    {videoThumbnail ? (
+                      <>
+                        <img src={videoThumbnail} alt="Video" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-all flex items-center justify-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" className="w-6 h-6 group-hover:scale-110 transition-transform">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-gray-900" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" className="w-8 h-8 group-hover:scale-110 transition-transform relative z-10">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             )}
 
             {handle === 'kit-premium-de-paseo-para-perros' && (
-              <VideoReviews videos={[
-                {
-                  id: 'video2',
-                  title: '',
-                  videoUrl: '/videoreview1.mp4'
-                },
-                {
-                  id: 'video3',
-                  title: '',
-                  videoUrl: '/cacaperro.mp4'
-                }
-              ]} />
+              <div id="video-modal" className="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+                <div className="relative w-full max-w-2xl bg-black rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => {
+                      const modal = document.getElementById('video-modal');
+                      const video = document.getElementById('modal-video') as HTMLVideoElement | null;
+                      if (video) { video.pause(); video.currentTime = 0; }
+                      if (modal) modal.classList.add('hidden');
+                    }}
+                    className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#303854] hover:bg-[#303854] text-white rounded-full flex items-center justify-center transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <div style={{ paddingBottom: '56.25%', position: 'relative', height: 0 }}>
+                    <video
+                      id="modal-video"
+                      controls
+                      preload="none"
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                      }}
+                      src="/videoreview1.mp4"
+                    />
+                  </div>
+                </div>
+              </div>
             )}
           </div>
 
           {/* Product Info */}
           <div className="space-y-6">
+            {/* Reviews above title */}
+            {handle === 'kit-premium-de-paseo-para-perros' && (
+              <div className="flex items-center gap-2">
+                <div className="flex">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <svg key={i} className={`w-5 h-5 ${i <= 4 ? 'text-yellow-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-base font-bold text-[#303854]">4.5</span>
+                <span className="text-sm text-gray-600">( 652 reseñas )</span>
+              </div>
+            )}
+
             <div>
               <h1 className="text-3xl md:text-4xl font-black text-[#303854] mb-3">{product.title}</h1>
-              {handle === 'kit-premium-de-paseo-para-perros' && (
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <svg key={i} className={`w-5 h-5 ${i <= 4 ? 'text-yellow-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-lg font-bold text-[#303854]">4.5</span>
-                  <span className="text-sm text-gray-600">( 652 reseñas )</span>
-                </div>
-              )}
             </div>
 
             <div className="space-y-3">
@@ -330,27 +418,46 @@ export default function ProductoPage() {
               )}
               <div>
                 {hasDiscount && (
-                  <p className="text-lg text-gray-400 line-through mb-1">{formatPrice(compareAt.amount, compareAt.currencyCode)}</p>
+                  <div className="flex items-center gap-4 md:gap-6">
+                    <span className="text-3xl md:text-4xl font-black text-gray-400 line-through">{formatPrice(compareAt.amount, compareAt.currencyCode)}</span>
+                    <span className="text-3xl md:text-4xl font-black text-red-600">
+                      {formatPrice(price.amount, price.currencyCode)}
+                    </span>
+                  </div>
                 )}
-                <span className="text-5xl md:text-6xl font-black text-[#303854]">
-                  {formatPrice(price.amount, price.currencyCode)}
-                </span>
+                {!hasDiscount && (
+                  <span className="text-5xl md:text-6xl font-black text-[#303854]">
+                    {formatPrice(price.amount, price.currencyCode)}
+                  </span>
+                )}
+
+                {/* Características */}
+                <div className="mt-6 space-y-2">
+                  <p className="text-sm text-gray-700 flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    Agua limpia en cualquier lugar.
+                  </p>
+                  <p className="text-sm text-gray-700 flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    Diseño portátil y fácil de usar.
+                  </p>
+                  <p className="text-sm text-gray-700 flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    Ideal para paseos, viajes y aventuras.
+                  </p>
+                </div>
               </div>
-              <div className="bg-sky-100 border border-[#7DB8E8] rounded-lg px-4 py-3 mt-3">
-                <p className="text-sm font-bold text-[#303854] flex items-center gap-2">
-                  <span className="text-lg">💳</span>
-                  3 cuotas sin interés x <span className="text-[#7DB8E8] font-black">{formatPrice((parseFloat(price.amount) / 3).toFixed(2), price.currencyCode)}</span>
-                </p>
-              </div>
+
             </div>
 
             {PRODUCT_CONFIGS[handle] ? (
               <div className="space-y-3">
-                {handle === 'kit-premium-de-paseo-para-perros' && (
-                  <>
-                    <CountdownTimer />
-                  </>
-                )}
+                {/* Stock Alert */}
+                <div className="text-center flex items-center justify-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-[#7DB8E8] animate-pulse shadow-lg" style={{boxShadow: '0 0 10px rgba(125, 184, 232, 0.6)'}}></span>
+                  <span className="text-[#303854] text-sm font-black">Quedan pocas unidades — <span className="text-[#7DB8E8]">pedí ahora</span></span>
+                </div>
+
                 {handle === 'kit-argentina-mundial-2026' && (
                   <>
                     {/* Gift highlight */}
@@ -365,15 +472,6 @@ export default function ProductoPage() {
                       </div>
                     </div>
 
-                    {/* Countdown Timer Argentina Style */}
-                    <style>{`
-                    .argentina-countdown #countdown-timer {
-                      background: linear-gradient(90deg, #60A5FA 0%, #FBBF24 50%, #60A5FA 100%) !important;
-                    }
-                  `}</style>
-                    <div className="argentina-countdown">
-                      <CountdownTimer />
-                    </div>
 
                     {/* Sizes Selection */}
                     <div>
@@ -431,13 +529,79 @@ export default function ProductoPage() {
                   Agregar al carrito
                 </button>
 
-                {/* Shopify description */}
-                {(product.descriptionHtml || product.description) && (
-                  <div className="bg-sky-50 rounded-2xl p-8 border border-sky-100">
-                    <h3 className="text-xl font-black text-[#303854] mb-6">Descripción</h3>
-                    <div className="prose prose-sm text-gray-700 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
+                {/* Benefits below button */}
+                <div className="flex justify-around mt-8 mb-6 text-center">
+                  <div className="flex flex-col items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-[#303854]">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    <p className="font-bold text-[#303854] text-sm">Envío gratis</p>
                   </div>
+
+                  <div className="flex flex-col items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-[#303854]">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                    </svg>
+                    <p className="font-bold text-[#303854] text-sm">30 días de garantía</p>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-[#303854]">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.694 48.694 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.385 48.385 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                    </svg>
+                    <p className="font-bold text-[#303854] text-sm">Soporte 24/7</p>
+                  </div>
+                </div>
+
+                {/* Shopify description accordion */}
+                {(product.descriptionHtml || product.description) && (
+                  <details className="group border-t border-gray-200">
+                    <summary className="flex items-center gap-3 cursor-pointer font-bold text-[#303854] text-base select-none hover:text-[#7DB8E8] transition-colors py-4 px-0 border-b border-gray-200">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-open:rotate-180 transition-transform">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                      ¿Cómo funciona?
+                    </summary>
+                    <div className="mt-4 text-base text-gray-700 space-y-3 pl-3">
+                      <p><strong>Paso 1:</strong> Cargá la botella con agua fresca antes del paseo.</p>
+                      <p><strong>Paso 2:</strong> Cuando tu mascota tenga sed, presioná el botón para llenar el recipiente.</p>
+                      <p><strong>Paso 3:</strong> Si sobra agua, incliná la botella y presioná nuevamente el botón para que vuelva al interior, evitando desperdicios.</p>
+                    </div>
+                  </details>
                 )}
+
+                {/* Our Guarantee Section */}
+                <details className="group mt-3">
+                  <summary className="flex items-center gap-3 cursor-pointer font-bold text-[#303854] text-base select-none hover:text-[#7DB8E8] transition-colors py-3 px-0 border-b border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-open:rotate-180 transition-transform">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                    Nuestra garantía
+                  </summary>
+                  <div className="mt-4 text-base text-gray-700 space-y-3 pl-3">
+                    <p>Ofrecemos una <strong>garantía de 30 días</strong> en todos nuestros productos. Si por alguna razón no estás completamente satisfecho con tu compra, podés devolvérla sin hacer preguntas.</p>
+                    <p><strong>¿Qué cubre nuestra garantía?</strong></p>
+                    <ul className="list-disc list-inside space-y-2">
+                      <li>Defectos de fabricación</li>
+                      <li>Problemas de funcionamiento</li>
+                      <li>Daños en el envío</li>
+                    </ul>
+                    <p>Tu satisfacción es nuestra prioridad. Si tenés algún inconveniente, contactanos y te ayudaremos de inmediato.</p>
+                  </div>
+                </details>
+
+                {/* Shipping & Delivery Section */}
+                <details className="group mt-3">
+                  <summary className="flex items-center gap-3 cursor-pointer font-bold text-[#303854] text-base select-none hover:text-[#7DB8E8] transition-colors py-3 px-0 border-b border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-open:rotate-180 transition-transform">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                    Envío y entrega
+                  </summary>
+                  <div className="mt-4 text-base text-gray-700 space-y-3 pl-3">
+                    <p>Procesamos los pedidos dentro de las 24-72 horas y los entregamos en un plazo de 6-15 días según tu ubicación, con envío con seguimiento incluido para tu comodidad.</p>
+                  </div>
+                </details>
 
                 {/* What's Included Section - solo para Argentina y Kit Higiene */}
                 {handle !== 'kit-premium-de-paseo-para-perros' && (
@@ -468,16 +632,6 @@ export default function ProductoPage() {
                   </div>
                 )}
 
-                {/* Features pills */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-8">
-                  {PRODUCT_CONFIGS[handle].features.map((item: any) => (
-                    <div key={item.label} className="flex flex-col items-center text-center p-5 bg-sky-100 border border-[#7DB8E8] rounded-xl hover:bg-sky-200 transition-colors">
-                      <span className="text-4xl md:text-5xl mb-3">{item.icon}</span>
-                      <h4 className="font-bold text-[#303854] text-xs md:text-sm mb-1">{item.label}</h4>
-                      <p className="text-[10px] md:text-xs text-[#303854]">{item.text}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
             ) : (
               <div className="prose prose-sm text-gray-600 max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.descriptionHtml || `<p>${product.description}</p>`) }} />
@@ -489,12 +643,111 @@ export default function ProductoPage() {
 
       {handle === 'kit-premium-de-paseo-para-perros' && (
         <>
+          {/* Gifs + Table (left) and Progress circles (right) */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 pb-12 md:pb-16">
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
+              {/* Left: Gifs + Comparison Table */}
+              <div>
+                {/* Before/After with Gifs */}
+                <div className="relative bg-gradient-to-r from-amber-800 to-pink-400 rounded-3xl overflow-hidden shadow-xl">
+                  <div className="flex">
+                    <div className="flex-1 relative">
+                      <Image src="/gifperro2.gif" alt="Antes" width={320} height={320} className="w-full h-80 object-cover" />
+                    </div>
+                    <div className="w-1 bg-white/30"></div>
+                    <div className="flex-1 relative">
+                      <Image src="/gifperro1.gif" alt="Después" width={320} height={320} className="w-full h-80 object-cover" />
+                    </div>
+                  </div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-6 h-6 text-gray-800">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Comparison Table */}
+                <div className="mt-8 overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-[#303854] text-white">
+                        <th className="px-6 py-4 text-left font-bold">Sin Bebedero Portátil</th>
+                        <th className="px-6 py-4 text-left font-bold">Con Bebedero Portátil</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-gray-200">
+                        <td className="px-6 py-4 text-sm text-gray-700">Toma agua de charcos o lugares sucios.</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Siempre toma agua limpia y fresca.</td>
+                      </tr>
+                      <tr className="border-b border-gray-200">
+                        <td className="px-6 py-4 text-sm text-gray-700">Puede pasar horas sin hidratarse.</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Hidratación inmediata en cualquier lugar.</td>
+                      </tr>
+                      <tr className="border-b border-gray-200">
+                        <td className="px-6 py-4 text-sm text-gray-700">Tenés que llevar botella y recipiente por separado.</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Todo en un solo producto, práctico y liviano.</td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 text-sm text-gray-700">Mayor riesgo de bacterias y enfermedades.</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">Más seguridad y bienestar en cada paseo.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Right: Headline + Percentage circles */}
+              <div>
+                <h2 className="text-3xl md:text-4xl font-black text-[#303854] mb-4 leading-tight">
+                  Resultados que hablan por sí solos
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed mb-10">
+                  Cientos de clientes ya disfrutan de paseos más cómodos y felices con sus mascotas siempre hidratadas.
+                </p>
+                <div className="space-y-6">
+                  {[
+                    { percent: 94, text: 'recomendaría el producto' },
+                    { percent: 96, text: 'notó a su mascota más hidratada' },
+                    { percent: 95, text: 'lo volvería a comprar' },
+                  ].map((item) => {
+                    const radius = 42;
+                    const circumference = 2 * Math.PI * radius;
+                    const offset = circumference - (item.percent / 100) * circumference;
+                    return (
+                      <div key={item.percent} className="flex items-center gap-5 border-b border-gray-100 pb-6 last:border-b-0">
+                        <div className="relative w-24 h-24 flex-shrink-0">
+                          <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r={radius} fill="none" stroke="#E5E7EB" strokeWidth="8" />
+                            <circle
+                              cx="50" cy="50" r={radius}
+                              fill="none"
+                              stroke="#303854"
+                              strokeWidth="8"
+                              strokeLinecap="round"
+                              strokeDasharray={circumference}
+                              strokeDashoffset={offset}
+                            />
+                          </svg>
+                          <span className="absolute inset-0 flex items-center justify-center text-xl font-black text-[#303854]">
+                            {item.percent}%
+                          </span>
+                        </div>
+                        <p className="text-lg text-gray-700">{item.text}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <PainPointSection
             title="Tu perro merece agua limpia en cada paseo"
             subtitle="Descubrí por qué miles de dueños ya no salen sin la botella portátil."
             cardTitle="Los paseos sin agua pueden ser peligrosos."
             bullets={[
-              'Tu perro bebe de charcos sucios y después tiene problemas digestivos o infecciones.',
+              'Tu perro toma de charcos sucios y después tiene problemas digestivos o infecciones.',
               'Se deshidrata rápido en días calurosos y termina exhausto antes de tiempo.',
               'Las botellas comunes gotean, mojan tu mochila y ensucias todo lo que cargás.',
               'Querés disfrutar del paseo, no estar pendiente de si tiene sed o está enfermo.',
@@ -504,6 +757,63 @@ export default function ProductoPage() {
           />
 
           <ProductReviews reviews={productReviews} />
+
+          {/* FAQ Section */}
+          <div className="mt-16 mb-16 max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-sm uppercase tracking-wider text-[#7DB8E8] font-bold mb-2">Preguntas Frecuentes</p>
+              <h3 className="text-4xl font-black text-[#303854]">FAQ</h3>
+            </div>
+            <div className="space-y-0 border-t border-gray-200">
+              {[
+                {
+                  question: "¿Es apto para perros y gatos?",
+                  answer: "Sí. Es ideal tanto para perros como para gatos de todos los tamaños."
+                },
+                {
+                  question: "¿Pierde agua o gotea?",
+                  answer: "No. Cuenta con un sistema de bloqueo que evita pérdidas de agua cuando está guardado en la mochila o el bolso."
+                },
+                {
+                  question: "¿Es seguro para mi mascota?",
+                  answer: "Sí. Está fabricado con materiales resistentes y seguros para el contacto con agua potable."
+                },
+                {
+                  question: "¿Cómo se limpia?",
+                  answer: "Se limpia fácilmente con agua y jabón neutro. Se recomienda lavarlo regularmente para mantener una correcta higiene."
+                },
+                {
+                  question: "¿Qué medios de pago aceptan?",
+                  answer: "Podés pagar con tarjeta de crédito, débito y otros medios de pago disponibles al finalizar la compra. Además, podés aprovechar las 3 cuotas sin interés."
+                },
+                {
+                  question: "¿Realizan envíos a todo el país?",
+                  answer: "Sí. Realizamos envíos a toda Argentina para que recibas tu pedido en la puerta de tu casa."
+                },
+                {
+                  question: "¿Como me contacto con ustedes?",
+                  answer: "Podés contactarnos a través de nuestro número de WhatsApp, o vía Gmail en la sección de contacto."
+                }
+              ].map((faq, index) => (
+                <details key={index} className="group border-b border-gray-200">
+                  <summary className="flex items-center justify-between cursor-pointer font-bold text-[#303854] text-base select-none hover:text-[#7DB8E8] transition-colors py-5 px-0">
+                    <span className="flex items-center gap-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-[#303854]">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.546-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      {faq.question}
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-[#303854] group-open:rotate-180 transition-transform flex-shrink-0">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </summary>
+                  <div className="mt-2 text-base text-gray-700 pb-5 pl-8">
+                    {faq.answer}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
         </>
       )}
 

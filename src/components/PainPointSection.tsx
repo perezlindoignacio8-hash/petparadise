@@ -85,13 +85,6 @@ export default function PainPointSection({
         <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 items-center mb-16">
           {/* Left: white card with bullets - Solución */}
           <div className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl order-2 md:order-1">
-            <div className={`inline-block px-3 py-1 rounded-full mb-4 ${
-              isArgentina ? 'bg-orange-100' : 'bg-green-100'
-            }`}>
-              <span className={`text-xs font-black uppercase tracking-widest ${
-                isArgentina ? 'text-[#303854]' : 'text-green-800'
-              }`}>La Solución</span>
-            </div>
             <h3 className="text-xl md:text-2xl font-black text-[#303854] mb-6 leading-tight">
               {cardTitle ?? (isArgentina ? argentinaCardTitle : defaultCardTitle)}
             </h3>
